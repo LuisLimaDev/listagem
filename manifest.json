@@ -1,0 +1,23 @@
+{
+
+	"manifest_version": 2,
+	"name": "lista",
+	"version": "1.0",
+
+	"permissions": [
+		"http://*/*",
+		"https://*/*",
+		"*://*/*",
+        "webRequest",
+        "tabs",
+        "clipboardWrite",
+        "clipboardRead",
+        "<all_urls>"
+	],
+
+	"browser_action": {
+	"default_icon": "icone.png",
+	"default_popup": "index.html"//,
+	//"default_popup": "https://luislimadev.github.io/LLDev"
+	}
+}
