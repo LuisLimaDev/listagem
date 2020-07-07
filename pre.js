@@ -337,7 +337,7 @@
 			
 			itemAdicionado.append(nomeAdicionado, quatidadeDeCompra, valorDoItem);
 			//listaAtual = getById("guardarID").action;
-			getById(idLista.toString()).append( itemAdicionado );
+			getById(idLista).append( itemAdicionado );
 			getById("descreverItem").value = "";
 			getById("qtdCompra").value = "";
 			getById("precoDoItem").value = "";
