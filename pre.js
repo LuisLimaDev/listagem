@@ -1,5 +1,7 @@
 //pre.js
 
+	corTema = "rgb(128,192,255)";
+
 	function getById(id){
 		return document.getElementById(id);
 	}
@@ -18,6 +20,38 @@
 		} else {
 			return numeroParaVer;
 		}
+	}
+	
+	function mostrarIcones(){
+		numeradorIcone = 0;
+		while( numeradorIcone < 12000 ){
+			saidaGrfx = criarNovoEl("span");
+			saidaGrfx.innerHTML = "&#" + numeradorIcone + ";";
+			linhaIcone = criarNovoEl("p");
+			linhaIcone.innerText = "&#" + numeradorIcone + ";";
+			linhaIcone.append( saidaGrfx );
+			getById("icones").append( linhaIcone );
+			numeradorIcone++;
+		}
+	}
+	
+	function excluirLista( idListaPraExluir ){
+		idsListas = localStorage.getItem( "idDasListas" ).split(" ;; ");
+		cntListasGuardadas = 0;
+		listasString = " ;; ";
+		while ( cntListasGuardadas < idsListas.length && idListaPraExluir.toString() != "" ){
+			if( idsListas[cntListasGuardadas] != idListaPraExluir.toString() && idsListas[cntListasGuardadas] != " ;; " ){
+				listasString = listasString + " ;; " + idsListas[cntListasGuardadas] ;
+				cntListasGuardadas++;
+			} else if ( idsListas[cntListasGuardadas] == "" ){
+				cntListasGuardadas++;
+			} else {
+				cntListasGuardadas++;
+			}
+		}
+		localStorage.removeItem( idListaPraExluir.toString() );
+		localStorage.setItem( "idDasListas", listasString );
+		carregarListasAdicionadas();
 	}
 	
 	function alterarItem( idDoItem ){
@@ -59,6 +93,7 @@
 		getById("descreverItem").value = "";
 		getById("qtdCompra").value = "";
 		getById("precoDoItem").value = "";
+		carregarListasAdicionadas();
 	}
 
 	function abrirLista( idParaVisualizar ){
@@ -70,18 +105,25 @@
 		tituloAberto.innerText = listaAberta.split(" inicioDaLista ")[0];
 		
 		btExcluirLista = criarNovoEl("a");
-		btExcluirLista.innerText = "X";
-		btExcluirLista.href = "#excluir?idLista=" + idParaVisualizar;
-		btExcluirLista.setAttribute("class", "btFechar Excluir");
+		btExcluirLista.innerHTML = "&#9995;";
+		btExcluirLista.href = "#excluir";
+		btExcluirLista.id =  idParaVisualizar;
+		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
+		
+		btFechar = criarNovoEl("a");
+		btFechar.href = "#Voltar";
+		btFechar.innerHTML = "&larr;";
+		btFechar.setAttribute("class", "btQuadrado");
 		
 		btNovoItem = criarNovoEl("a");
 		btNovoItem.innerHTML = "&#10010";
 		btNovoItem.href = "#addLista";
-		btNovoItem.setAttribute("class", "adicionarItem");
+		btNovoItem.setAttribute("class", "adicionarItem btQuadrado");
 		
 		divTituloJanela = criarNovoEl("div");
+		divTituloJanelaSecao = criarNovoEl("section");
 		divTituloJanela.setAttribute("class", "tituloJanela");
-		divTituloJanela.append( tituloAberto, btNovoItem, btExcluirLista );
+		divTituloJanela.append( btFechar, tituloAberto, btNovoItem, btExcluirLista );
 		getById("visualizarLista").append( divTituloJanela );
 		
 		legendVerLista = criarNovoEl("p");
@@ -102,7 +144,8 @@
 		
 		legendTabLista = criarNovoEl("p");
 		legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, legEditar, legApagar );
-		getById("visualizarLista").append( legendVerLista );
+		legendVerLista.style = "text-align: center;  background-color: " + corTema ;
+		divTituloJanelaSecao.append( legendVerLista );
 		
 		itensDaListaAberta = listaAberta.split(" inicioDaLista ")[1].split(" ;; ")[0].split(" && ");
 		cntItensDaListaAberta = 0;
@@ -127,26 +170,29 @@
 				
 				btEditarItem = criarNovoEl("a");
 				btEditarItem.href = "#addLista";
-				btEditarItem.innerText = "Alterar";
+				btEditarItem.innerHTML = "&#9998;";
 				btEditarItem.id = cntItensDaListaAberta;
+				btEditarItem.setAttribute("class", "btQuadrado");
 				btEditarItem.addEventListener( "click", function(){
 					alterarItem( this.id );
 				} );
 				
 				btRemoverItem = criarNovoEl("a");
 				btRemoverItem.href = "#visualizarLista";
-				btRemoverItem.innerText = "Remover";
+				btRemoverItem.innerHTML = "&#10007;";
 				btRemoverItem.id = cntItensDaListaAberta;
+				btRemoverItem.setAttribute("class", "btQuadrado");
 				btRemoverItem.addEventListener( "click", function(){
 					removerItem( this.id );
 				} );
 				
 				linhaDoItem.append( verDescricao, verUnidades, verPreco, btEditarItem, btRemoverItem );
 				
-				getById("visualizarLista").append( linhaDoItem );
+				divTituloJanelaSecao.append( linhaDoItem );
 			}
 			cntItensDaListaAberta++;
 		}
+		getById("visualizarLista").append( divTituloJanelaSecao );
 		valorEstimadoDaLista = criarNovoEl("p");
 		valorEstimadoDaLista.innerHTML = "Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + "."
 		getById("visualizarLista").append( valorEstimadoDaLista );
@@ -162,92 +208,105 @@
 			cntListas = 0;
 			
 			while ( cntListas < listasSeparadas.length ){
-				
-				listaGuardada = criarNovoEl("div");
-				listaGuardada.id = listasSeparadas[cntListas];
-				
-				itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
-				tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
-				h2Titulo = criarNovoEl("h2");
+				if (listasSeparadas[cntListas] != ""){
+					
+					listaGuardada = criarNovoEl("div");
+					listaGuardada.id = listasSeparadas[cntListas];
+					
+					itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
+					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
+					h2Titulo = criarNovoEl("h2");
 
-				visualizarLista = criarNovoEl("a");
-				visualizarLista.innerText = tituloNaLista;
-				visualizarLista.id = listasSeparadas[cntListas];
-				visualizarLista.href = "#visualizarLista";
-				visualizarLista.addEventListener("click", function(){
-					abrirLista( this.id );
-				});
+					visualizarLista = criarNovoEl("a");
+					visualizarLista.innerText = tituloNaLista;
+					visualizarLista.id = listasSeparadas[cntListas];
+					visualizarLista.href = "#visualizarLista";
+					visualizarLista.addEventListener("click", function(){
+						abrirLista( this.id );
+					});
 
-				h2Titulo.append( visualizarLista );
-				
-				tituloJanela = criarNovoEl("div");
-				tituloJanela.setAttribute("class", "tituloJanela");
-				
-				btExcluirLista = criarNovoEl("a");
-				btExcluirLista.href = "#excluir?idLista=" + listasSeparadas[cntListas];
-				btExcluirLista.innerText = "X";
+					h2Titulo.append( visualizarLista );
+					
+					tituloJanela = criarNovoEl("div");
+					tituloJanela.setAttribute("class", "tituloJanela");
+					
+					btExcluirLista = criarNovoEl("a");
+					btExcluirLista.href = "#excluir";
+					btExcluirLista.id =  listasSeparadas[cntListas];
+					btExcluirLista.innerHTML = "&#10008;";
+					btExcluirLista.setAttribute("class", "btQuadrado");
+					btExcluirLista.addEventListener("click", function(){
+						excluirLista( this.id );
+					});
 
-				btEditarLista = criarNovoEl("a");
-				btEditarLista.href = "#editarLista?idLista=" + listasSeparadas[cntListas];
-				btEditarLista.innerText = "Editar";
+					btEditarLista = criarNovoEl("a");
+					btEditarLista.href = "#editarLista?idLista=" + listasSeparadas[cntListas];
+					btEditarLista.setAttribute("class", "btQuadrado");
+					btEditarLista.innerHTML = "&#9998;";
 
-				tituloJanela.append( h2Titulo, btExcluirLista )//, btExcluirLista );
-				
-				listaGuardada.append( tituloJanela );
-				
-				legendDasListas = criarNovoEl("p");
-				
-				legendaDesc = criarNovoEl("span");
-				legendaDesc.innerText = "Descrição";
-				
-				legendaUnid = criarNovoEl("span");
-				legendaUnid.innerText = "Unidades";
-				
-				legendaPrec = criarNovoEl("span");
-				legendaPrec.innerText = "Preço";
+					tituloJanela.append( btExcluirLista, h2Titulo )//, btExcluirLista );
+					
+					listaGuardada.append( tituloJanela );
+					
+					legendDasListas = criarNovoEl("p");
+					
+					legendaDesc = criarNovoEl("span");
+					legendaDesc.innerText = "Descrição";
+					
+					legendaUnid = criarNovoEl("span");
+					legendaUnid.innerText = "Unidades";
+					
+					legendaPrec = criarNovoEl("span");
+					legendaPrec.innerText = "Preço";
 
-				legendDasListas.append( legendaDesc, legendaUnid, legendaPrec );
-				listaGuardada.append( legendDasListas );
+					legendDasListas.append( legendaDesc, legendaUnid, legendaPrec );
+					legendDasListas.style = "text-align: center;  background-color: " + corTema ;
+					secaoItems = criarNovoEl("section");
+					secaoItems.append( legendDasListas );
+					//listaGuardada.append( legendDasListas );
 
-				conteudoNaLista = itensNaLista.split(" inicioDaLista ")[1].split(" && ");
-				cntItens = 0;
-				
-				calcularCompra = 0;
-				valorEstimadoDaCompra = criarNovoEl("p");
-				
-				while (cntItens < conteudoNaLista.length ){
-					if( conteudoNaLista[cntItens] != "" ){
-						itemDaLista = criarNovoEl("p");
-						descricaoAdicionada = criarNovoEl("span");
-						descricaoAdicionada.innerText = conteudoNaLista[cntItens].split(" ++ ")[0];
-						
-						unidadesDoItem = criarNovoEl("span");
-						unidadesDoItem.innerText = conteudoNaLista[cntItens].split(" ++ ")[1];
-						
-						valorGuardado = criarNovoEl("span");
-						valorGuardado.innerText = conteudoNaLista[cntItens].split(" ++ ")[2];
-						itemDaLista.append( descricaoAdicionada, unidadesDoItem, valorGuardado );
-						
-						
-						quantidadePorItem = ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",", ".") ) ? parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",", ".") ) : 0 );
-						valorUnidadeoItem = ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) ? parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) : 0 );
-						
-						calcularCompra = calcularCompra + ( quantidadePorItem * valorUnidadeoItem );
-				
-						//calcularCompra = calcularCompra + ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) * parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",",".") ) );
-						if( isNaN( calcularCompra ) == true ){
-							valorEstimadoDaCompra.innerHTML = "Valor não estimado."
-						} else{
-							valorEstimadoDaCompra.innerHTML = "Valor estimado da compra em: " + calcularCompra.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".";
+					conteudoNaLista = itensNaLista.split(" inicioDaLista ")[1].split(" && ");
+					cntItens = 0;
+					
+					calcularCompra = 0;
+					valorEstimadoDaCompra = criarNovoEl("p");
+					
+					while (cntItens < conteudoNaLista.length ){
+						if( conteudoNaLista[cntItens] != "" ){
+							itemDaLista = criarNovoEl("p");
+							descricaoAdicionada = criarNovoEl("span");
+							descricaoAdicionada.innerText = conteudoNaLista[cntItens].split(" ++ ")[0];
+							
+							unidadesDoItem = criarNovoEl("span");
+							unidadesDoItem.innerText = conteudoNaLista[cntItens].split(" ++ ")[1];
+							
+							valorGuardado = criarNovoEl("span");
+							valorGuardado.innerText = conteudoNaLista[cntItens].split(" ++ ")[2].toLocaleString("pt-BR", { style: "currency" , currency:"BRL"});
+							itemDaLista.append( descricaoAdicionada, unidadesDoItem, valorGuardado );
+							
+							
+							quantidadePorItem = ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",", ".") ) ? parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",", ".") ) : 0 );
+							valorUnidadeoItem = ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) ? parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) : 0 );
+							
+							calcularCompra = calcularCompra + ( quantidadePorItem * valorUnidadeoItem );
+					
+							//calcularCompra = calcularCompra + ( parseFloat( conteudoNaLista[cntItens].split(" ++ ")[2].replace(",",".") ) * parseFloat( conteudoNaLista[cntItens].split(" ++ ")[1].replace(",",".") ) );
+							if( isNaN( calcularCompra ) == true ){
+								valorEstimadoDaCompra.innerHTML = "Valor não estimado."
+							} else{
+								valorEstimadoDaCompra.innerHTML = "Valor estimado da compra em: " + calcularCompra.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".";
+							}
+
+							secaoItems.append( itemDaLista );
+							
 						}
-
-						listaGuardada.append( itemDaLista );
+						cntItens++;
 					}
-					cntItens++;
+					secaoItems.append( valorEstimadoDaCompra );
+					listaGuardada.append( secaoItems );
+					getById("listaEmCriacao").append(listaGuardada);
 				}
-				listaGuardada.append( valorEstimadoDaCompra );
-				getById("listaEmCriacao").append(listaGuardada);
-				cntListas++;
+					cntListas++;
 			}
 		}
 	}
@@ -286,6 +345,7 @@
 			
 			//addItemParaLista = "produto: " + nomeAdicionado " ;; ";
 		}
+		carregarListasAdicionadas();
 	}
 	
 	function criarIdParaLista(){
@@ -295,10 +355,12 @@
 		listaNova.id = idLista;
 		getById("guardarID").action = idLista;
 		btExcluirLista = criarNovoEl("a");
+		btExcluirLista.setAttribute("class", "btQuadrado");
 		btExcluirLista.href = "#excluir?idLista=" + idLista;
-		btExcluirLista.innerText = "X";
+		btExcluirLista.innerHTML = "&#10008;";
 		
 		btEditarLista = criarNovoEl("a");
+		btEditarLista.setAttribute("class", "btQuadrado");
 		btEditarLista.href = "#editarLista?idLista=" + idLista;
 		btEditarLista.innerText = "Editar";
 		
@@ -327,7 +389,7 @@
 		
 		tituloJanela = criarNovoEl("div");
 		tituloJanela.setAttribute("class", "tituloJanela");
-		tituloJanela.append( identificacaoVisual, btExcluirLista )//, btEditarLista );
+		tituloJanela.append( btExcluirLista, identificacaoVisual )//, btEditarLista );
 		
 		listaNova.append(tituloJanela);
 		
@@ -342,7 +404,9 @@
 		
 		legendTabLista = criarNovoEl("p");
 		legendTabLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem );
+		legendTabLista.style = "text-align: center;  background-color: " + corTema ;
 		listaNova.append( legendTabLista );
 		
 		getById("listaEmCriacao").append(listaNova);
+		carregarListasAdicionadas();
 	}
