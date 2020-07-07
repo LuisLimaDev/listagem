@@ -71,7 +71,7 @@
 	
 	function editProdutoNaLista(){
 		itemEditado = getById("descreverItem").name;
-		idListaEditando = getById("guardarID").action.split("lista/")[1];
+		idListaEditando = getById("guardarID").action.split("listagem/")[1];
 		listaEditando = localStorage.getItem( idListaEditando.toString() );
 		listaEditando = listaEditando.split(" inicioDaLista ")[1].split(" && ");
 		
@@ -330,7 +330,7 @@
 			quatidadeDeCompra.innerText = qtdCompra.value;
 			valorDoItem.innerText = precoDoItem.value;
 			
-			idLista = getById("guardarID").action.split("lista/")[1];
+			idLista = getById("guardarID").action.split("listagem/")[1];
 			
 			itensAdicionados = localStorage.getItem( idLista ) + descricaoDoItem.value + " ++ " + qtdCompra.value + " ++ " + precoDoItem.value + " && ";
 			localStorage.setItem( idLista, itensAdicionados);
