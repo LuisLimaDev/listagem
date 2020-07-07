@@ -1,5 +1,7 @@
 //after.js
 
+	getById("barraMenu").style.backgroundColor = corTema;
+
 	getById("addProdutoNaLista").addEventListener("click", function(){
 		trabalharCampoDeTexto()
 	});
