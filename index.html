@@ -46,23 +46,28 @@
 			}
 			
 			#barraMenu{
-				background-color: rgb(0,120,125);
+				background-color: rgb(0,180,255);
 				position: fixed;
 				width: 100%;
 				top: 0px;
 				box-shadow: 0px 25px 50px 25px #fff;
 			}
 
-			#barraMenu a:hover, #menuBlock a:hover{
-				background-color: rgb(0,130,125);
+			#barraMenu a:hover, #menuBlock a:hover, a.btQuadrado:hover{
+				background-color: rgb(180,180,180);
 				color: rgb(250,250,250);
 			}
 
-			#barraMenu a, #menuBlock a, a.btFechar{
+			#barraMenu a, #menuBlock a, a.btFechar, a.btQuadrado{
+				text-align: center;
 				font-size: 25pt;
 				line-height: 50px;
 				color: rgb(50,50,50);
 				padding: 0px 10px;
+			}
+			
+			.nada{
+				background-color: rgb(180,180,255);
 			}
 			
 			input, button{
@@ -74,10 +79,13 @@
 			
 			div.tituloJanela{
 				display: grid;
-				grid-template-columns: 80% 50px 50px;
+				grid-template-columns: 50px 75% 50px 50px;
 				justify-content: space-between;
-				padding-left: 20px;
 				margin-bottom: 10px;
+			}
+
+			div.tituloJanela h2{
+				line-height: 60px;
 			}
 
 			#listaEmCriacao div p{
@@ -85,19 +93,24 @@
 				grid-template-columns: 60% 20% 20%;
 			}
 
-			#listaEmCriacao div div{
+			#listaEmCriacao div div.tituloJanela{
 				padding: 0px;
 				margin: 0px;
 				box-shadow: none;
 				display: grid;
-				grid-template-columns: auto 50px 50px;
+				grid-template-columns: 50px auto 50px;
 				justify-content: space-between;
 			}
 
 			#listaEmCriacao div{
-				padding: 5%;
 				margin: 5%;
 				box-shadow: 0px 3px 9px #aaa;
+			}
+
+			#listaEmCriacao div section, #visualizarLista section{
+				padding: 0px 5% 50px 5%;
+				overflow-y: scroll;
+				max-height: 350px;
 			}
 			
 			a.btFechar{
@@ -131,7 +144,7 @@
 			}
 
 			#listaEmCriacao p:hover, #visualizarLista p:hover{
-				background-color: rgb(0,150,128);
+				background-color: rgb(0,180,255);
 			}
 
 			#listaEmCriacao p, #campoAdicionar, #visualizarLista p{
@@ -172,6 +185,8 @@
 
 		</header>
 		
+		<div id="excluir"></div>
+		
 		<div id="visualizarLista" class="escondido janela">
 			<div id="tituloListaAberta"></div>
 		
@@ -180,8 +195,8 @@
 		<div id="addLista" class="escondido janela">
 
 			<div class="tituloJanela">
-				<h1>Nova lista</h1>
 				<a href="#fechar" class="btFechar">&#10006;</a>
+				<h1>Nova lista</h1>
 			</div>
 			
 			<div id="campoAdicionar">
