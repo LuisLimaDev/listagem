@@ -106,14 +106,14 @@
 		tituloAberto.innerText = listaAberta.split(" inicioDaLista ")[0];
 		
 		btExcluirLista = criarNovoEl("a");
-		btExcluirLista.innerHTML = "&#9995;";
+		btExcluirLista.innerHTML = "&#10007;";
 		btExcluirLista.href = "#excluir";
 		btExcluirLista.id =  idParaVisualizar;
 		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
 		
 		btFechar = criarNovoEl("a");
 		btFechar.href = "#Voltar";
-		btFechar.innerHTML = "&larr;";
+		btFechar.innerHTML = "&#10216;";
 		btFechar.setAttribute("class", "btQuadrado");
 		
 		btNovoItem = criarNovoEl("a");
