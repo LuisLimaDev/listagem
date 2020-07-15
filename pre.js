@@ -22,15 +22,16 @@
 		}
 	}
 	
-	function mostrarIcones(){
+	function mostrarIcones(divSaidaIcones){
 		numeradorIcone = 0;
-		while( numeradorIcone < 12000 ){
+		while( numeradorIcone < 13311 ){
+			saidaCode = criarNovoEl("span");
 			saidaGrfx = criarNovoEl("span");
 			saidaGrfx.innerHTML = "&#" + numeradorIcone + ";";
 			linhaIcone = criarNovoEl("p");
-			linhaIcone.innerText = "&#" + numeradorIcone + ";";
-			linhaIcone.append( saidaGrfx );
-			getById("icones").append( linhaIcone );
+			saidaCode.innerText = "&#" + numeradorIcone + ";";
+			linhaIcone.append( saidaCode, saidaGrfx );
+			divSaidaIcones.append( linhaIcone );
 			numeradorIcone++;
 		}
 	}
