@@ -99,6 +99,8 @@
 
 	function abrirLista( idParaVisualizar ){
 		getById("visualizarLista").innerHTML = "";
+		getById("visualizarLista").setAttribute("class", "janela");
+		getById("visualizarLista").style = "animation: 1s normal abrirJanela";
 		getById("guardarID").action = idParaVisualizar;
 		//getById("visualizarLista").style.display = "block";
 		listaAberta = localStorage.getItem( idParaVisualizar );
@@ -115,6 +117,12 @@
 		btFechar.href = "#Voltar";
 		btFechar.innerHTML = "&#10216;";
 		btFechar.setAttribute("class", "btQuadrado");
+		btFechar.addEventListener("click", function(evntBtFechar){
+			evntBtFechar.preventDefault();
+			getById("visualizarLista").style = "animation: 1s normal fecharJanela";
+			//getById("visualizarLista").setAttribute("class", "janela escondido");
+			setTimeout(function(){ getById("visualizarLista").setAttribute("class", "janela escondido") }, 1000);
+		});
 		
 		btNovoItem = criarNovoEl("a");
 		btNovoItem.innerHTML = "&#10010";
