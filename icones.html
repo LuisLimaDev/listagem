@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="pre.js"></script>
+		<style>
+			div#icones {
+				display: block;
+			}
+
+			div#icones p {
+				display: grid;
+				grid-template-columns: 100px 100px;
+				width: 200px;
+			}
+
+			div#icones p span {border: 1px solid #aaaaaa;text-align: center;}
+
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+
+			div#icones p:hover {
+				background-color: #aaf;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="icones">
+		</div>
+	</body>
+	<script>
+		mostrarIcones(getById("icones"));
+	</script>
+</html>
