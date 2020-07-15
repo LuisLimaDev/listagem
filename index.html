@@ -16,7 +16,7 @@
 				margin: 0px;
 				transition: 1s all ease !important;
 			}
-			
+
 			@keyframes abrirJanela{
 				0%{
 					opacity: 0;
@@ -25,6 +25,17 @@
 				100%{
 					opacity: 1;
 					left: 0%;
+				}
+			}
+
+			@keyframes fecharJanela{
+				0%{
+					opacity: 1;
+					left: 0%;
+				}
+				100%{
+					opacity: 0;
+					left: -100%;
 				}
 			}
 			
@@ -123,10 +134,10 @@
 				top: 50px;
 			}
 
+			#menuBlock:target, #addLista:target{ display: block; animation: 1s abrirJanela }
+
 			#menuBlock:target, #addLista:target, #visualizarLista:target {
-				display: block;
 				box-shadow: 5px 5px 25px #555;
-				animation: 0.5s abrirJanela;
 				position: fixed;
 				background-color: white;
 			}
