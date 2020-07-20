@@ -1,6 +1,6 @@
 //pre.js
 
-	corTema = "rgb(128,192,255)";
+	var corTema = "rgb(128,192,255)";
 
 	function getById(id){
 		return document.getElementById(id);
@@ -22,6 +22,22 @@
 		}
 	}
 	
+	function animFechar( elementoParaAbrir ){
+		elementoParaAbrir.style.animation = "1s normal fecharJanela";
+		setTimeout(function(){
+			elementoParaAbrir.classList.add("escondido");
+			elementoParaAbrir.style.display = "none";
+		}, 1000);
+	}
+
+	function animAbrir( elementoParaFechar ){
+		elementoParaFechar.style.animation = "1s normal abrirJanela";
+		setTimeout(function(){
+			elementoParaFechar.classList.remove("escondido");
+			elementoParaFechar.style.display = "block";
+		}, 1000);
+	}
+	
 	function mostrarIcones(divSaidaIcones){
 		numeradorIcone = 0;
 		while( numeradorIcone < 13311 ){
@@ -36,6 +52,36 @@
 		}
 	}
 	
+	function confirmacaoExcluirLista( idListaPraPerguntar ){
+		getById("excluir").innerHTML = "";
+		botoes = criarNovoEl("section");
+		tituloJanela = criarNovoEl("div");
+		tituloJanela.classList.add("tituloJanela");
+		perguntaPraExluir = criarNovoEl("h2");
+		perguntaPraExluir.innerText = "Deseja realmente exluir a lista selecionada?";
+		
+		botaoSim = criarNovoEl("button");
+		botaoSim.setAttribute("class", "botao btFechar");
+		botaoSim.innerHTML = "Sim, apagar lista!";
+		botaoSim.addEventListener( "click", function(){
+			excluirLista( idListaPraPerguntar );
+			animFechar( getById("excluir") );
+		});
+		
+		nada = criarNovoEl("a");
+		botaoNao = criarNovoEl("button");
+		botaoNao.innerHTML = "Não, foi engano.";
+		botaoNao.classList.add("botao");
+		botaoNao.addEventListener( "click", function(){
+			history.back(1);
+			animFechar( getById("excluir") );
+		});
+		
+		botoes.append( botaoSim, botaoNao )
+		tituloJanela.append( nada, perguntaPraExluir )
+		getById("excluir").append( tituloJanela, botoes );
+	}
+
 	function excluirLista( idListaPraExluir ){
 		idsListas = localStorage.getItem( "idDasListas" ).split(" ;; ");
 		cntListasGuardadas = 0;
@@ -72,7 +118,7 @@
 	
 	function editProdutoNaLista(){
 		itemEditado = getById("descreverItem").name;
-		idListaEditando = getById("guardarID").action.split("listagem/")[1];
+		idListaEditando = getById("guardarID").value;
 		listaEditando = localStorage.getItem( idListaEditando.toString() );
 		listaEditando = listaEditando.split(" inicioDaLista ")[1].split(" && ");
 		
@@ -100,8 +146,8 @@
 	function abrirLista( idParaVisualizar ){
 		getById("visualizarLista").innerHTML = "";
 		getById("visualizarLista").setAttribute("class", "janela");
-		getById("visualizarLista").style = "animation: 1s normal abrirJanela";
-		getById("guardarID").action = idParaVisualizar;
+		getById("visualizarLista").style.animation = "1s normal abrirJanela";
+		getById("guardarID").value = idParaVisualizar;
 		//getById("visualizarLista").style.display = "block";
 		listaAberta = localStorage.getItem( idParaVisualizar );
 		tituloAberto = criarNovoEl("h2");
@@ -112,22 +158,36 @@
 		btExcluirLista.href = "#excluir";
 		btExcluirLista.id =  idParaVisualizar;
 		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
+		btExcluirLista.addEventListener("click", function(evntBtFechar){
+			//evntBtFechar.preventDefault();
+			confirmacaoExcluirLista( getById("visualizarLista") );
+			animAbrir( getById("excluir") );
+			animFechar( getById("visualizarLista") );
+		})
 		
 		btFechar = criarNovoEl("a");
 		btFechar.href = "#Voltar";
 		btFechar.innerHTML = "&#10216;";
 		btFechar.setAttribute("class", "btQuadrado");
 		btFechar.addEventListener("click", function(evntBtFechar){
+			animFechar( getById("visualizarLista") );
 			evntBtFechar.preventDefault();
-			getById("visualizarLista").style = "animation: 1s normal fecharJanela";
-			//getById("visualizarLista").setAttribute("class", "janela escondido");
-			setTimeout(function(){ getById("visualizarLista").setAttribute("class", "janela escondido") }, 1000);
 		});
 		
 		btNovoItem = criarNovoEl("a");
 		btNovoItem.innerHTML = "&#10010";
 		btNovoItem.href = "#addLista";
 		btNovoItem.setAttribute("class", "adicionarItem btQuadrado");
+		btNovoItem.addEventListener("click", function(evntBtFechar){
+			//evntBtFechar.preventDefault();
+			animFechar( getById("visualizarLista") );
+			getById("visualizarLista").classList.add("escondido");
+			getById("addLista").classList.remove("escondido");
+			getById("addLista").style.display = "block";
+			animAbrir( getById("addLista") );
+			getById("addProdutoNaLista").style.display = "block";
+			getById("editProdutoNaLista").style.display = "none";
+		});
 		
 		divTituloJanela = criarNovoEl("div");
 		divTituloJanelaSecao = criarNovoEl("section");
@@ -184,6 +244,10 @@
 				btEditarItem.setAttribute("class", "btQuadrado");
 				btEditarItem.addEventListener( "click", function(){
 					alterarItem( this.id );
+					animAbrir( getById("addLista") );
+					animFechar( getById("visualizarLista") );
+					getById("addProdutoNaLista").style.display = "none";
+					getById("editProdutoNaLista").style.display = "block";
 				} );
 				
 				btRemoverItem = criarNovoEl("a");
@@ -231,6 +295,7 @@
 					visualizarLista.id = listasSeparadas[cntListas];
 					visualizarLista.href = "#visualizarLista";
 					visualizarLista.addEventListener("click", function(){
+						animAbrir( getById("visualizarLista") );
 						abrirLista( this.id );
 					});
 
@@ -245,7 +310,8 @@
 					btExcluirLista.innerHTML = "&#10008;";
 					btExcluirLista.setAttribute("class", "btQuadrado");
 					btExcluirLista.addEventListener("click", function(){
-						excluirLista( this.id );
+						confirmacaoExcluirLista( this.id );
+						animAbrir( getById("excluir") );
 					});
 
 					btEditarLista = criarNovoEl("a");
@@ -339,7 +405,7 @@
 			quatidadeDeCompra.innerText = qtdCompra.value;
 			valorDoItem.innerText = precoDoItem.value;
 			
-			idLista = getById("guardarID").action.split("listagem/")[1];
+			idLista = getById("guardarID").value;
 			
 			itensAdicionados = localStorage.getItem( idLista ) + descricaoDoItem.value + " ++ " + qtdCompra.value + " ++ " + precoDoItem.value + " && ";
 			localStorage.setItem( idLista, itensAdicionados);
@@ -362,7 +428,14 @@
 		idLista = pegarHora.getFullYear().toString() + de0a9((pegarHora.getMonth()+1)).toString() + de0a9(pegarHora.getDate()).toString() + de0a9(pegarHora.getHours()).toString() + de0a9(pegarHora.getMinutes()).toString() + de0a9(pegarHora.getSeconds()).toString();
 		listaNova = criarNovoEl("div");
 		listaNova.id = idLista;
-		getById("guardarID").action = idLista;
+		getById("guardarID").value = idLista;
+		getById("addProdutoNaLista").style.display = "block";
+		getById("editProdutoNaLista").style.display = "none";
+		getById("fecharEditor").href = "#visualizarLista";
+		getById("fecharEditor").addEventListener("click", function(){
+			//alert( this.href.split("=")[1] );
+			abrirLista( getById("guardarID").value );
+		});
 		btExcluirLista = criarNovoEl("a");
 		btExcluirLista.setAttribute("class", "btQuadrado");
 		btExcluirLista.href = "#excluir?idLista=" + idLista;
