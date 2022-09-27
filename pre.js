@@ -1,18 +1,7 @@
 //pre.js
 
 	var corTema = "rgb(128,192,255)";
-
-	function getById(id){
-		return document.getElementById(id);
-	}
-
-	function getByClass(cl){
-		return document.getElementsByClassName(cl);
-	}
-
-	function criarNovoEl(el){
-		return document.createElement(el);
-	}
+    diasDaSemana = [ "domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sabado"];
 	
 	function de0a9( numeroParaVer ){
 		if ( numeroParaVer < 10 ){
@@ -41,10 +30,10 @@
 	function mostrarIcones(divSaidaIcones){
 		numeradorIcone = 0;
 		while( numeradorIcone < 13311 ){
-			saidaCode = criarNovoEl("span");
-			saidaGrfx = criarNovoEl("span");
+			saidaCode = novoElm("span");
+			saidaGrfx = novoElm("span");
 			saidaGrfx.innerHTML = "&#" + numeradorIcone + ";";
-			linhaIcone = criarNovoEl("p");
+			linhaIcone = novoElm("p");
 			saidaCode.innerText = "&#" + numeradorIcone + ";";
 			linhaIcone.append( saidaCode, saidaGrfx );
 			divSaidaIcones.append( linhaIcone );
@@ -54,13 +43,13 @@
 	
 	function confirmacaoExcluirLista( idListaPraPerguntar ){
 		getById("excluir").innerHTML = "";
-		botoes = criarNovoEl("section");
-		tituloJanela = criarNovoEl("div");
+		botoes = novoElm("section");
+		tituloJanela = novoElm("div");
 		tituloJanela.classList.add("tituloJanela");
-		perguntaPraExluir = criarNovoEl("h2");
+		perguntaPraExluir = novoElm("h2");
 		perguntaPraExluir.innerText = "Deseja realmente exluir a lista selecionada?";
 		
-		botaoSim = criarNovoEl("button");
+		botaoSim = novoElm("button");
 		botaoSim.setAttribute("class", "botao btFechar");
 		botaoSim.innerHTML = "Sim, apagar lista!";
 		botaoSim.addEventListener( "click", function(){
@@ -68,8 +57,8 @@
 			animFechar( getById("excluir") );
 		});
 		
-		nada = criarNovoEl("a");
-		botaoNao = criarNovoEl("button");
+		nada = novoElm("a");
+		botaoNao = novoElm("button");
 		botaoNao.innerHTML = "Não, foi engano.";
 		botaoNao.classList.add("botao");
 		botaoNao.addEventListener( "click", function(){
@@ -150,10 +139,10 @@
 		getById("guardarID").value = idParaVisualizar;
 		//getById("visualizarLista").style.display = "block";
 		listaAberta = localStorage.getItem( idParaVisualizar );
-		tituloAberto = criarNovoEl("h2");
+		tituloAberto = novoElm("h2");
 		tituloAberto.innerText = listaAberta.split(" inicioDaLista ")[0];
 		
-		btExcluirLista = criarNovoEl("a");
+		btExcluirLista = novoElm("a");
 		btExcluirLista.innerHTML = "&#10007;";
 		btExcluirLista.href = "#excluir";
 		btExcluirLista.id =  idParaVisualizar;
@@ -165,7 +154,7 @@
 			animFechar( getById("visualizarLista") );
 		})
 		
-		btFechar = criarNovoEl("a");
+		btFechar = novoElm("a");
 		btFechar.href = "#Voltar";
 		btFechar.innerHTML = "&#10216;";
 		btFechar.setAttribute("class", "btQuadrado");
@@ -174,7 +163,7 @@
 			evntBtFechar.preventDefault();
 		});
 		
-		btNovoItem = criarNovoEl("a");
+		btNovoItem = novoElm("a");
 		btNovoItem.innerHTML = "&#10010";
 		btNovoItem.href = "#addLista";
 		btNovoItem.setAttribute("class", "adicionarItem btQuadrado");
@@ -188,30 +177,44 @@
 			getById("addProdutoNaLista").style.display = "block";
 			getById("editProdutoNaLista").style.display = "none";
 		});
-		
-		divTituloJanela = criarNovoEl("div");
-		divTituloJanelaSecao = criarNovoEl("section");
+
+// nomeDoElemento
+// atributoID
+// atributoName
+// atributoValue
+// atributoType
+// atributoClass
+// atributoHREF
+// atributoSRC
+// atributoTarget
+// atributoOnClick
+// atributoStyle
+// conteudoInterno
+
+		divTituloJanela = novoElm("div");
+		divTituloJanelaSecao = novoElm("section");
+		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<tr><td>Descrição</td><td>Unidade</td><td>Preço</td>" });
 		divTituloJanela.setAttribute("class", "tituloJanela");
 		divTituloJanela.append( btFechar, tituloAberto, btNovoItem, btExcluirLista );
 		getById("visualizarLista").append( divTituloJanela );
 		
-		legendVerLista = criarNovoEl("p");
-		descricaoDosProdutos = criarNovoEl("span");
+		legendVerLista = novoElm("p");
+		descricaoDosProdutos = novoElm("span");
 		descricaoDosProdutos.innerText = "Descrição";
 		
-		unidadesParaCompra = criarNovoEl("span");
+		unidadesParaCompra = novoElm("span");
 		unidadesParaCompra.innerText = "Unidade";
 		
-		valorEstimadoDoItem = criarNovoEl("span");
+		valorEstimadoDoItem = novoElm("span");
 		valorEstimadoDoItem.innerText = "Preço";
 		
-		legEditar = criarNovoEl("span");
+		legEditar = novoElm("span");
 		legEditar.innerText = "Alterar";
 		
-		legApagar = criarNovoEl("span");
+		legApagar = novoElm("span");
 		legApagar.innerText = "Apagar";
 		
-		legendTabLista = criarNovoEl("p");
+		legendTabLista = novoElm("p");
 		legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, legEditar, legApagar );
 		legendVerLista.style = "text-align: center;  background-color: " + corTema ;
 		divTituloJanelaSecao.append( legendVerLista );
@@ -221,12 +224,12 @@
 		valorListaAberta = 0;
 		while( cntItensDaListaAberta < itensDaListaAberta.length ){
 			if( itensDaListaAberta[cntItensDaListaAberta] != "" ){
-				linhaDoItem = criarNovoEl("p");
+				linhaDoItem = novoElm("p");
 
-				linhaDoItem = criarNovoEl("p");
-				verDescricao = criarNovoEl("span");
-				verUnidades = criarNovoEl("span");
-				verPreco = criarNovoEl("span");
+				linhaDoItem = novoElm("p");
+				verDescricao = novoElm("span");
+				verUnidades = novoElm("span");
+				verPreco = novoElm("span");
 				
 				verDescricao.innerText = itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[0];
 				verUnidades.innerText = itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1];
@@ -237,7 +240,7 @@
 				
 				valorListaAberta = valorListaAberta + ( quantidadeDoItem * valorUnidadeItem );
 				
-				btEditarItem = criarNovoEl("a");
+				btEditarItem = novoElm("a");
 				btEditarItem.href = "#addLista";
 				btEditarItem.innerHTML = "&#9998;";
 				btEditarItem.id = cntItensDaListaAberta;
@@ -250,7 +253,7 @@
 					getById("editProdutoNaLista").style.display = "block";
 				} );
 				
-				btRemoverItem = criarNovoEl("a");
+				btRemoverItem = novoElm("a");
 				btRemoverItem.href = "#visualizarLista";
 				btRemoverItem.innerHTML = "&#10007;";
 				btRemoverItem.id = cntItensDaListaAberta;
@@ -262,12 +265,18 @@
 				linhaDoItem.append( verDescricao, verUnidades, verPreco, btEditarItem, btRemoverItem );
 				
 				divTituloJanelaSecao.append( linhaDoItem );
+				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td>"+verUnidades.innerText+"</td><td>"+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})+"</td>" }) );
 			}
 			cntItensDaListaAberta++;
 		}
 		getById("visualizarLista").append( divTituloJanelaSecao );
-		valorEstimadoDaLista = criarNovoEl("p");
+		valorEstimadoDaLista = novoElm("p");
 		valorEstimadoDaLista.innerHTML = "Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + "."
+		getById("visualizarLista").append( criar({
+			nomeDoElemento:"a",
+			atributoHREF:`javascript:download("`+tituloAberto.innerText+`.xls",divTituloJanelaSecao2.outerHTML)`,
+			conteudoInterno:"Baixar lista"
+		}) );
 		getById("visualizarLista").append( valorEstimadoDaLista );
 	}
 	
@@ -283,14 +292,14 @@
 			while ( cntListas < listasSeparadas.length ){
 				if (listasSeparadas[cntListas] != ""){
 					
-					listaGuardada = criarNovoEl("div");
+					listaGuardada = novoElm("div");
 					listaGuardada.id = listasSeparadas[cntListas];
 					
 					itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
 					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
-					h2Titulo = criarNovoEl("h2");
+					h2Titulo = novoElm("h2");
 
-					visualizarLista = criarNovoEl("a");
+					visualizarLista = novoElm("a");
 					visualizarLista.innerText = tituloNaLista;
 					visualizarLista.id = listasSeparadas[cntListas];
 					visualizarLista.href = "#visualizarLista";
@@ -301,10 +310,10 @@
 
 					h2Titulo.append( visualizarLista );
 					
-					tituloJanela = criarNovoEl("div");
+					tituloJanela = novoElm("div");
 					tituloJanela.setAttribute("class", "tituloJanela");
 					
-					btExcluirLista = criarNovoEl("a");
+					btExcluirLista = novoElm("a");
 					btExcluirLista.href = "#excluir";
 					btExcluirLista.id =  listasSeparadas[cntListas];
 					btExcluirLista.innerHTML = "&#10008;";
@@ -314,7 +323,7 @@
 						animAbrir( getById("excluir") );
 					});
 
-					btEditarLista = criarNovoEl("a");
+					btEditarLista = novoElm("a");
 					btEditarLista.href = "#editarLista?idLista=" + listasSeparadas[cntListas];
 					btEditarLista.setAttribute("class", "btQuadrado");
 					btEditarLista.innerHTML = "&#9998;";
@@ -323,20 +332,20 @@
 					
 					listaGuardada.append( tituloJanela );
 					
-					legendDasListas = criarNovoEl("p");
+					legendDasListas = novoElm("p");
 					
-					legendaDesc = criarNovoEl("span");
+					legendaDesc = novoElm("span");
 					legendaDesc.innerText = "Descrição";
 					
-					legendaUnid = criarNovoEl("span");
+					legendaUnid = novoElm("span");
 					legendaUnid.innerText = "Unidades";
 					
-					legendaPrec = criarNovoEl("span");
+					legendaPrec = novoElm("span");
 					legendaPrec.innerText = "Preço";
 
 					legendDasListas.append( legendaDesc, legendaUnid, legendaPrec );
 					legendDasListas.style = "text-align: center;  background-color: " + corTema ;
-					secaoItems = criarNovoEl("section");
+					secaoItems = novoElm("section");
 					secaoItems.append( legendDasListas );
 					//listaGuardada.append( legendDasListas );
 
@@ -344,18 +353,18 @@
 					cntItens = 0;
 					
 					calcularCompra = 0;
-					valorEstimadoDaCompra = criarNovoEl("p");
+					valorEstimadoDaCompra = novoElm("p");
 					
 					while (cntItens < conteudoNaLista.length ){
 						if( conteudoNaLista[cntItens] != "" ){
-							itemDaLista = criarNovoEl("p");
-							descricaoAdicionada = criarNovoEl("span");
+							itemDaLista = novoElm("p");
+							descricaoAdicionada = novoElm("span");
 							descricaoAdicionada.innerText = conteudoNaLista[cntItens].split(" ++ ")[0];
 							
-							unidadesDoItem = criarNovoEl("span");
+							unidadesDoItem = novoElm("span");
 							unidadesDoItem.innerText = conteudoNaLista[cntItens].split(" ++ ")[1];
 							
-							valorGuardado = criarNovoEl("span");
+							valorGuardado = novoElm("span");
 							valorGuardado.innerText = conteudoNaLista[cntItens].split(" ++ ")[2].toLocaleString("pt-BR", { style: "currency" , currency:"BRL"});
 							itemDaLista.append( descricaoAdicionada, unidadesDoItem, valorGuardado );
 							
@@ -396,11 +405,11 @@
 		} else {
 			//alert( descreverItem.value );
 			//getById("listaEmCriacao");
-			itemAdicionado = criarNovoEl("p");
-			quatidadeDeCompra = criarNovoEl("span");
-			valorDoItem = criarNovoEl("span");
-			botaoMais = criarNovoEl("button");
-			nomeAdicionado = criarNovoEl("span");
+			itemAdicionado = novoElm("p");
+			quatidadeDeCompra = novoElm("span");
+			valorDoItem = novoElm("span");
+			botaoMais = novoElm("button");
+			nomeAdicionado = novoElm("span");
 			nomeAdicionado.innerText = descricaoDoItem.value;
 			quatidadeDeCompra.innerText = qtdCompra.value;
 			valorDoItem.innerText = precoDoItem.value;
@@ -426,7 +435,7 @@
 	function criarIdParaLista(){
 		pegarHora = new Date();
 		idLista = pegarHora.getFullYear().toString() + de0a9((pegarHora.getMonth()+1)).toString() + de0a9(pegarHora.getDate()).toString() + de0a9(pegarHora.getHours()).toString() + de0a9(pegarHora.getMinutes()).toString() + de0a9(pegarHora.getSeconds()).toString();
-		listaNova = criarNovoEl("div");
+		listaNova = novoElm("div");
 		listaNova.id = idLista;
 		getById("guardarID").value = idLista;
 		getById("addProdutoNaLista").style.display = "block";
@@ -436,25 +445,25 @@
 			//alert( this.href.split("=")[1] );
 			abrirLista( getById("guardarID").value );
 		});
-		btExcluirLista = criarNovoEl("a");
+		btExcluirLista = novoElm("a");
 		btExcluirLista.setAttribute("class", "btQuadrado");
 		btExcluirLista.href = "#excluir?idLista=" + idLista;
 		btExcluirLista.innerHTML = "&#10008;";
 		
-		btEditarLista = criarNovoEl("a");
+		btEditarLista = novoElm("a");
 		btEditarLista.setAttribute("class", "btQuadrado");
 		btEditarLista.href = "#editarLista?idLista=" + idLista;
 		btEditarLista.innerText = "Editar";
 		
-		identificacaoVisual = criarNovoEl("h2");
-		visualizarLista = criarNovoEl("a");
+		identificacaoVisual = novoElm("h2");
+		visualizarLista = novoElm("a");
 		visualizarLista.href = "#visualizarLista";
 		visualizarLista.id = idLista;
 		visualizarLista.addEventListener("click", function(){
 			//alert( this.href.split("=")[1] );
 			abrirLista( this.id );
 		});
-		idVisualDaLista = "Criado às " + de0a9(pegarHora.getHours()).toString() + ":" + de0a9(pegarHora.getMinutes()).toString() + " dia " + de0a9(pegarHora.getDay()).toString() + "/" + de0a9((pegarHora.getMonth()+1)).toString() + "/" + pegarHora.getFullYear().toString();
+		idVisualDaLista = "Criado  " + diasDaSemana[ pegarHora.getDay() ] + ", às " + de0a9(pegarHora.getHours()).toString() + ":" + de0a9(pegarHora.getMinutes()).toString() + ", dia " + de0a9(pegarHora.getDay()).toString() + "/" + de0a9((pegarHora.getMonth()+1)).toString() + "/" + pegarHora.getFullYear().toString();
 		visualizarLista.innerText = idVisualDaLista;
 		identificacaoVisual.append( visualizarLista );
 		
@@ -469,22 +478,22 @@
 		}
 		
 		
-		tituloJanela = criarNovoEl("div");
+		tituloJanela = novoElm("div");
 		tituloJanela.setAttribute("class", "tituloJanela");
 		tituloJanela.append( btExcluirLista, identificacaoVisual )//, btEditarLista );
 		
 		listaNova.append(tituloJanela);
 		
-		descricaoDosProdutos = criarNovoEl("span");
+		descricaoDosProdutos = novoElm("span");
 		descricaoDosProdutos.innerText = "Descrição";
 		
-		unidadesParaCompra = criarNovoEl("span");
-		unidadesParaCompra.innerText = "Unidade";
+		unidadesParaCompra = novoElm("span");
+		unidadesParaCompra.innerText = "Un";
 		
-		valorEstimadoDoItem = criarNovoEl("span");
-		valorEstimadoDoItem.innerText = "Preço";
+		valorEstimadoDoItem = novoElm("span");
+		valorEstimadoDoItem.innerText = "$";
 		
-		legendTabLista = criarNovoEl("p");
+		legendTabLista = novoElm("p");
 		legendTabLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem );
 		legendTabLista.style = "text-align: center;  background-color: " + corTema ;
 		listaNova.append( legendTabLista );
