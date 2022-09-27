@@ -5,7 +5,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="icon" type="image/x-icon" content="icone.png">
 		<script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
 		
+		<script src="https://luislimadev.github.io/LLDev/elemental.js"></script>
+		<!-- <script src="elemental.js"></script> -->
 		<script src="pre.js"></script>
 
 		<title>Lista de compras</title>
@@ -172,6 +175,15 @@
 				display: grid;
 				grid-template-columns: 40% 20% 20% 10% 10%;
 			}
+
+			table {
+				width: 100%;
+				text-align: center;
+			}
+
+			table td {
+				border: 1px solid #aaa;
+			}
 			
 			.escondido{
 				display: none;
@@ -219,7 +231,7 @@
 			<div id="campoAdicionar">
 				<input id="guardarID" class="escondido" value=""/>
 				<input type="text" id="descreverItem" name="descreverItem" placeholder="Nome do produto"/>
-				<input type="number" id="qtdCompra" name="qtdCompra" placeholder="Quant." min="1" value="1"/>
+				<input type="number" id="qtdCompra" name="qtdCompra" placeholder="Quant." min="0.1"/>
 				<input type="text" id="precoDoItem" name="precoDoItem" placeholder="00,00"/>
 				<button id="addProdutoNaLista" class="botao">&#10010; Adicionar</button>
 				<a href="#visualizarLista" id="editProdutoNaLista" class="botao" target="">&#10004; Aplicar</a>
