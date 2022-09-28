@@ -208,6 +208,9 @@
 		valorEstimadoDoItem = novoElm("span");
 		valorEstimadoDoItem.innerText = "Preço";
 		
+		valorSubtotal = novoElm("span");
+		valorSubtotal.innerText = "SubTotal";
+		
 		legEditar = novoElm("span");
 		legEditar.innerText = "Alterar";
 		
@@ -215,7 +218,7 @@
 		legApagar.innerText = "Apagar";
 		
 		legendTabLista = novoElm("p");
-		legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, legEditar, legApagar );
+		legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, valorSubtotal, legEditar, legApagar );
 		legendVerLista.style = "text-align: center;  background-color: " + corTema ;
 		divTituloJanelaSecao.append( legendVerLista );
 		
@@ -227,13 +230,15 @@
 				linhaDoItem = novoElm("p");
 
 				linhaDoItem = novoElm("p");
-				verDescricao = novoElm("span");
-				verUnidades = novoElm("span");
-				verPreco = novoElm("span");
+				verDescricao = criar({ nomeDoElemento:"span", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[0]});
+				verUnidades = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1]});
+				verPreco = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2]});
+				subtotal = (verPreco.innerText * verUnidades.innerText);
+				verSubtotal = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
 				
-				verDescricao.innerText = itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[0];
-				verUnidades.innerText = itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1];
-				verPreco.innerText = itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2];
+				// verDescricao.innerText = ;
+				// verUnidades.innerText = ;
+				// verPreco.innerText = ;
 				
 				quantidadeDoItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1].replace(",", ".") ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1].replace(",", ".") ) : 0 );
 				valorUnidadeItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2].replace(",",".") ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2].replace(",",".") ) : 0 );
@@ -262,10 +267,9 @@
 					removerItem( this.id );
 				} );
 				
-				linhaDoItem.append( verDescricao, verUnidades, verPreco, btEditarItem, btRemoverItem );
+				linhaDoItem.append( verDescricao, verUnidades, verPreco, verSubtotal, btEditarItem, btRemoverItem );
 				
 				divTituloJanelaSecao.append( linhaDoItem );
-				subtotal = (verPreco.innerText * verUnidades.innerText);
 				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
 			}
 			cntItensDaListaAberta++;
@@ -273,13 +277,24 @@
 		getById("visualizarLista").append( divTituloJanelaSecao );
 		valorEstimadoDaLista = novoElm("p");
 		valorEstimadoDaLista.innerHTML = "Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + "."
-		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
-		getById("visualizarLista").append( criar({
-			nomeDoElemento:"a",
-			atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
-			conteudoInterno:"Baixar lista"
-		}) );
 		getById("visualizarLista").append( valorEstimadoDaLista );
+
+		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
+
+		getById("visualizarLista").append( criar({
+			nomeDoElemento: "div",
+			atributoClass: "exportarListas",
+			conteudoInterno: "" + criar({
+				nomeDoElemento:"a",
+				atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
+				conteudoInterno:"Exportar em formato Planilha *.HTM"
+			}).outerHTML /**  + criar({
+				nomeDoElemento: "a",
+				atributoHREF: `javascript:download("lista.ldc", listaAberta )`,
+				conteudoInterno: "Exportar em formato do APP *.LDC"
+			}).outerHTML **/
+		}) );
+
 	}
 
 	downloadLista=( nomeDoArquivo, conteudo )=>{
