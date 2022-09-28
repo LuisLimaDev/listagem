@@ -193,7 +193,7 @@
 
 		divTituloJanela = novoElm("div");
 		divTituloJanelaSecao = novoElm("section");
-		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<tr><td>Descrição</td><td>Unidade</td><td>Preço</td>" });
+		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td>" });
 		divTituloJanela.setAttribute("class", "tituloJanela");
 		divTituloJanela.append( btFechar, tituloAberto, btNovoItem, btExcluirLista );
 		getById("visualizarLista").append( divTituloJanela );
@@ -265,21 +265,29 @@
 				linhaDoItem.append( verDescricao, verUnidades, verPreco, btEditarItem, btRemoverItem );
 				
 				divTituloJanelaSecao.append( linhaDoItem );
-				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td>"+verUnidades.innerText+"</td><td>"+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})+"</td>" }) );
+				subtotal = (verPreco.innerText * verUnidades.innerText);
+				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
 			}
 			cntItensDaListaAberta++;
 		}
 		getById("visualizarLista").append( divTituloJanelaSecao );
 		valorEstimadoDaLista = novoElm("p");
 		valorEstimadoDaLista.innerHTML = "Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + "."
+		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
 		getById("visualizarLista").append( criar({
 			nomeDoElemento:"a",
-			atributoHREF:`javascript:download("`+tituloAberto.innerText+`.xls",divTituloJanelaSecao2.outerHTML)`,
+			atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
 			conteudoInterno:"Baixar lista"
 		}) );
 		getById("visualizarLista").append( valorEstimadoDaLista );
 	}
-	
+
+	downloadLista=( nomeDoArquivo, conteudo )=>{
+		cabecalho = `<html xmlns:o="urn:schemas-microsoft-com:office:office"xmlns:x="urn:schemas-microsoft-com:office:excel"xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta name=ProgId content=Excel.Sheet><meta name=Generator content="Microsoft Excel 12"><title>`+ nomeDoArquivo +`</title><style>td{ border: 1px solid #000; } .number{text-align: right} </style></head>`;
+		conteudo = cabecalho + "<body>" + conteudo + "</body></html>";
+		download( nomeDoArquivo + ".htm", conteudo );
+	}
+
 	function carregarListasAdicionadas(){
 		if (!(!(localStorage.getItem("idDasListas"))) == false){
 			console.log("Nada encontrado!")
