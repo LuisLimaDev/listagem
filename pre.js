@@ -1,6 +1,17 @@
 //pre.js
 
-	var corTema = "rgb(128,192,255)";
+
+let root = document.documentElement;
+
+
+corTema = "rgb(128 192 255)";
+corTema2 = "rgb(54 72 100)";
+corTema3 = "rgb(214 227 255)";
+
+root.style.setProperty( "--corTema", corTema );
+root.style.setProperty( "--corTema2", corTema2 );
+root.style.setProperty( "--corTema3", corTema3 );
+
     diasDaSemana = [ "domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sabado"];
 	
 	function de0a9( numeroParaVer ){
@@ -315,8 +326,12 @@
 			while ( cntListas < listasSeparadas.length ){
 				if (listasSeparadas[cntListas] != ""){
 					
-					listaGuardada = novoElm("div");
-					listaGuardada.id = listasSeparadas[cntListas];
+					listaGuardada = criar({
+						nomeDoElemento:"div",
+						atributoID: listasSeparadas[cntListas],
+						atributoClass: "rounded"
+					});
+					// listaGuardada.id = listasSeparadas[cntListas];
 					
 					itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
 					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
