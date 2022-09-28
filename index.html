@@ -65,12 +65,13 @@
 				position: fixed;
 				width: 100%;
 				top: 0px;
-				box-shadow: 0px 25px 50px 25px #fff;
+				box-shadow: 0px 5px 5px #888;
+				display: flex;
 			}
 
 			#barraMenu a:hover, #menuBlock a:hover, a.btQuadrado:hover, a.botao:hover, section p:hover{
-				background-color: var(--corTema);
-				color: rgb(250,250,250);
+				background-color: var(--corTema3);
+				color: var(--corTema2);
 				cursor: pointer;
 			}
 
@@ -79,7 +80,8 @@
 				font-size: 25pt;
 				line-height: 50px;
 				color: rgb(50,50,50);
-				padding: 0px 10px;
+				padding: 10px 20px;
+				width: 40px;
 			}
 			
 			.nada{
@@ -104,10 +106,7 @@
 				grid-template-columns: 50px 75% 50px 50px;
 				justify-content: space-between;
 				margin-bottom: 10px;
-			}
-
-			div.tituloJanela h2{
-				padding: 20px 20px 20px 0px;
+				background: var(--corTema);
 			}
 
 			#listaEmCriacao div p{
@@ -120,8 +119,17 @@
 				margin: 0px;
 				box-shadow: none;
 				display: grid;
-				grid-template-columns: 50px auto 50px;
+				grid-template-columns: 70px auto 50px;
 				justify-content: space-between;
+				border-radius: 20px 20px 0 0;
+			}
+
+			div.tituloJanela h2{
+				padding: 20px 20px 20px 0px;
+			}
+
+			.tituloJanela a, .tituloJanela h2{
+				color: var(--corTema2);
 			}
 
 			#listaEmCriacao div{
@@ -129,8 +137,17 @@
 				box-shadow: 0px 3px 9px #aaa;
 			}
 
+			section{
+				width: 80%;
+				margin: 0 auto;
+			}
+
+			.rounded{
+				border-radius: 20px;
+			}
+
 			#listaEmCriacao div section, #visualizarLista section, #excluir section{
-				padding: 0px 5% 50px 5%;
+				padding: 2% 5%;
 				overflow-y: scroll;
 				max-height: 350px;
 			}
@@ -142,7 +159,7 @@
 			}
 			
 			#menuBlock{
-				top: 50px;
+				top: 70px;
 			}
 
 			#menuBlock:target, #addLista:target{ display: block; animation: 1s abrirJanela }
@@ -155,10 +172,11 @@
 
 			#menuBlock a{
 				display: block;
+				width: 300px;
 			}
 
 			#listaEmCriacao{
-				margin: 70px 0px;
+				margin: 90px 0px;
 			}
 			
 			#listaEmCriacao p, #listaEmCriacao p span, #visualizarLista p{
@@ -173,7 +191,7 @@
 			
 			#visualizarLista p{
 				display: grid;
-				grid-template-columns: 40% 20% 20% 10% 10%;
+				grid-template-columns: 40% 20% 10% 10% 10% 10%;
 			}
 
 			table {
@@ -195,7 +213,28 @@
 				width: 100%;
 				position: fixed;
 			}
-		
+
+			.exportarListas {
+				background: #f8f8f8;
+				padding: 2% 5%;
+				width: 80%;
+				margin: 5px auto;
+				display: flex;
+			}
+
+			.exportarListas a {
+				background: #fff;
+				padding: 10px;
+				margin: 5px;
+				border: 1px solid #aaf;
+				border-radius: 10px;
+				box-shadow: 0 1px 5px #aaa;
+			}
+
+			.exportarListas a:hover {
+				box-shadow: 0 5px 5px #777;
+			}
+
 		</style>
 	</head>
 	
@@ -209,7 +248,7 @@
 
 			<div id="menuBlock" class="escondido">
 				<a href="#addLista" id="novaLista">&#10010; Nova lista</a>
-				<a href="#todasAsListas" id="todasAsListas">Todas as listas</a>
+				<a href="#importar" id="importar">Importar listas</a>
 			</div>
 
 		</header>
