@@ -57,7 +57,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		botoes = novoElm("section");
 		tituloJanela = novoElm("div");
 		tituloJanela.classList.add("tituloJanela");
-		perguntaPraExluir = novoElm("h2");
+		perguntaPraExluir = novoElm("h4");
 		perguntaPraExluir.innerText = "Deseja realmente exluir a lista selecionada?";
 		
 		botaoSim = novoElm("button");
@@ -150,11 +150,11 @@ root.style.setProperty( "--corTema3", corTema3 );
 		getById("guardarID").value = idParaVisualizar;
 		//getById("visualizarLista").style.display = "block";
 		listaAberta = localStorage.getItem( idParaVisualizar );
-		tituloAberto = novoElm("h2");
+		tituloAberto = novoElm("h4");
 		tituloAberto.innerText = listaAberta.split(" inicioDaLista ")[0];
 		
 		btExcluirLista = novoElm("a");
-		btExcluirLista.innerHTML = "&#10007;";
+		btExcluirLista.innerHTML = "&#10006;"; //Forma de "x" grande
 		btExcluirLista.href = "#excluir";
 		btExcluirLista.id =  idParaVisualizar;
 		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
@@ -167,7 +167,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		
 		btFechar = novoElm("a");
 		btFechar.href = "#Voltar";
-		btFechar.innerHTML = "&#10216;";
+		btFechar.innerHTML = "&#10094;";
 		btFechar.setAttribute("class", "btQuadrado");
 		btFechar.addEventListener("click", function(evntBtFechar){
 			animFechar( getById("visualizarLista") );
@@ -204,7 +204,8 @@ root.style.setProperty( "--corTema3", corTema3 );
 
 		divTituloJanela = novoElm("div");
 		divTituloJanelaSecao = novoElm("section");
-		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td>" });
+		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
+		divTituloJanelaSecao3 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td><td>Alterar</td><td>Excluir</td></tr></thead>" });
 		divTituloJanela.setAttribute("class", "tituloJanela");
 		divTituloJanela.append( btFechar, tituloAberto, btNovoItem, btExcluirLista );
 		getById("visualizarLista").append( divTituloJanela );
@@ -229,23 +230,23 @@ root.style.setProperty( "--corTema3", corTema3 );
 		legApagar.innerText = "Apagar";
 		
 		legendTabLista = novoElm("p");
-		legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, valorSubtotal, legEditar, legApagar );
-		legendVerLista.style = "text-align: center;  background-color: " + corTema ;
-		divTituloJanelaSecao.append( legendVerLista );
+		// legendVerLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem, valorSubtotal, legEditar, legApagar );
+		// legendVerLista.style = "text-align: center;  background-color: var( --corTema ) ";
+		// divTituloJanelaSecao.append( legendVerLista );
 		
 		itensDaListaAberta = listaAberta.split(" inicioDaLista ")[1].split(" ;; ")[0].split(" && ");
 		cntItensDaListaAberta = 0;
 		valorListaAberta = 0;
 		while( cntItensDaListaAberta < itensDaListaAberta.length ){
 			if( itensDaListaAberta[cntItensDaListaAberta] != "" ){
-				linhaDoItem = novoElm("p");
+				// linhaDoItem = novoElm("p");
 
-				linhaDoItem = novoElm("p");
+				// linhaDoItem = novoElm("p");
 				verDescricao = criar({ nomeDoElemento:"span", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[0]});
-				verUnidades = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1]});
-				verPreco = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2]});
+				verUnidades = criar({ nomeDoElemento:"span", atributoClass: "min100", atributoStyle:" ", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[1]});
+				verPreco = criar({ nomeDoElemento:"span", atributoClass: "min100", conteudoInterno: itensDaListaAberta[cntItensDaListaAberta].split(" ++ ")[2]});
 				subtotal = (verPreco.innerText * verUnidades.innerText);
-				verSubtotal = criar({ nomeDoElemento:"span", atributoStyle:" text-align: center ", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
+				verSubtotal = criar({ nomeDoElemento:"span", atributoClass: "min100", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
 				
 				// verDescricao.innerText = ;
 				// verUnidades.innerText = ;
@@ -261,33 +262,27 @@ root.style.setProperty( "--corTema3", corTema3 );
 				btEditarItem.innerHTML = "&#9998;";
 				btEditarItem.id = cntItensDaListaAberta;
 				btEditarItem.setAttribute("class", "btQuadrado");
-				btEditarItem.addEventListener( "click", function(){
-					alterarItem( this.id );
-					animAbrir( getById("addLista") );
-					animFechar( getById("visualizarLista") );
-					getById("addProdutoNaLista").style.display = "none";
-					getById("editProdutoNaLista").style.display = "block";
-				} );
+				btEditarItem.setAttribute( "onclick", "btAltItem( this.id )" );
 				
 				btRemoverItem = novoElm("a");
 				btRemoverItem.href = "#visualizarLista";
-				btRemoverItem.innerHTML = "&#10007;";
+				btRemoverItem.innerHTML = "&#10799;";
 				btRemoverItem.id = cntItensDaListaAberta;
 				btRemoverItem.setAttribute("class", "btQuadrado");
-				btRemoverItem.addEventListener( "click", function(){
-					removerItem( this.id );
-				} );
+				btRemoverItem.setAttribute( "onclick", 'exclItem( this.id )' );
 				
-				linhaDoItem.append( verDescricao, verUnidades, verPreco, verSubtotal, btEditarItem, btRemoverItem );
+				// linhaDoItem.append( verDescricao, verUnidades, verPreco, verSubtotal, btEditarItem, btRemoverItem );
 				
-				divTituloJanelaSecao.append( linhaDoItem );
+				// divTituloJanelaSecao.append( linhaDoItem );
 				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
+				divTituloJanelaSecao3.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td><td>"+btEditarItem.outerHTML+"</td><td>"+ btRemoverItem.outerHTML +"</td>" }) );
 			}
 			cntItensDaListaAberta++;
 		}
-		getById("visualizarLista").append( divTituloJanelaSecao );
+		// getById("visualizarLista").append( divTituloJanelaSecao );
+		getById("visualizarLista").append( divTituloJanelaSecao3 );
 		valorEstimadoDaLista = novoElm("p");
-		valorEstimadoDaLista.innerHTML = "Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + "."
+		valorEstimadoDaLista.innerHTML = "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>"
 		getById("visualizarLista").append( valorEstimadoDaLista );
 
 		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
@@ -298,14 +293,26 @@ root.style.setProperty( "--corTema3", corTema3 );
 			conteudoInterno: "" + criar({
 				nomeDoElemento:"a",
 				atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
-				conteudoInterno:"Exportar em formato Planilha *.HTM"
+				conteudoInterno:"&#10515; Exportar em formato Planilha *.HTM"
 			}).outerHTML /**  + criar({
 				nomeDoElemento: "a",
 				atributoHREF: `javascript:download("lista.ldc", listaAberta )`,
-				conteudoInterno: "Exportar em formato do APP *.LDC"
+				conteudoInterno: "&#10515; Exportar em formato do APP *.LDC"
 			}).outerHTML **/
 		}) );
 
+	}
+
+	exclItem=( idDoBotao )=>{
+		removerItem( idDoBotao );
+	}
+
+	btAltItem=( idDoBotao )=>{
+		alterarItem( idDoBotao );
+		animAbrir( getById("addLista") );
+		animFechar( getById("visualizarLista") );
+		getById("addProdutoNaLista").style.display = "none";
+		getById("editProdutoNaLista").style.display = "block";
 	}
 
 	downloadLista=( nomeDoArquivo, conteudo )=>{
@@ -335,7 +342,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					
 					itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
 					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
-					h2Titulo = novoElm("h2");
+					h2Titulo = novoElm("h4");
 
 					visualizarLista = novoElm("a");
 					visualizarLista.innerText = tituloNaLista;
@@ -354,7 +361,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					btExcluirLista = novoElm("a");
 					btExcluirLista.href = "#excluir";
 					btExcluirLista.id =  listasSeparadas[cntListas];
-					btExcluirLista.innerHTML = "&#10008;";
+					btExcluirLista.innerHTML = "&#10006;";
 					btExcluirLista.setAttribute("class", "btQuadrado");
 					btExcluirLista.addEventListener("click", function(){
 						confirmacaoExcluirLista( this.id );
@@ -382,7 +389,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					legendaPrec.innerText = "Preço";
 
 					legendDasListas.append( legendaDesc, legendaUnid, legendaPrec );
-					legendDasListas.style = "text-align: center;  background-color: " + corTema ;
+					legendDasListas.style = "text-align: center;  background-color: var( --corTema ) " ;
 					secaoItems = novoElm("section");
 					secaoItems.append( legendDasListas );
 					//listaGuardada.append( legendDasListas );
@@ -416,7 +423,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 							if( isNaN( calcularCompra ) == true ){
 								valorEstimadoDaCompra.innerHTML = "Valor não estimado."
 							} else{
-								valorEstimadoDaCompra.innerHTML = "Valor estimado da compra em: " + calcularCompra.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".";
+								valorEstimadoDaCompra.innerHTML = "<span>Valor estimado da compra em: " + calcularCompra.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>";
 							}
 
 							secaoItems.append( itemDaLista );
@@ -486,14 +493,14 @@ root.style.setProperty( "--corTema3", corTema3 );
 		btExcluirLista = novoElm("a");
 		btExcluirLista.setAttribute("class", "btQuadrado");
 		btExcluirLista.href = "#excluir?idLista=" + idLista;
-		btExcluirLista.innerHTML = "&#10008;";
+		btExcluirLista.innerHTML = "&#10799;";
 		
 		btEditarLista = novoElm("a");
 		btEditarLista.setAttribute("class", "btQuadrado");
 		btEditarLista.href = "#editarLista?idLista=" + idLista;
 		btEditarLista.innerText = "Editar";
 		
-		identificacaoVisual = novoElm("h2");
+		identificacaoVisual = novoElm("h4");
 		visualizarLista = novoElm("a");
 		visualizarLista.href = "#visualizarLista";
 		visualizarLista.id = idLista;
@@ -533,7 +540,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		
 		legendTabLista = novoElm("p");
 		legendTabLista.append( descricaoDosProdutos, unidadesParaCompra, valorEstimadoDoItem );
-		legendTabLista.style = "text-align: center;  background-color: " + corTema ;
+		legendTabLista.style = "text-align: center;  background-color: var( --corTema )";
 		listaNova.append( legendTabLista );
 		
 		getById("listaEmCriacao").append(listaNova);
