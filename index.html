@@ -19,6 +19,16 @@
 				padding: 0px;
 				margin: 0px;
 				transition: 1s all ease !important;
+				--deviceTheme: rgb(250 250 250);
+			}
+
+			@media (prefers-color-scheme: dark){
+				--deviceTheme: rgb(118 118 118);
+			}
+
+			html {
+				height: -webkit-fill-available;
+				background: var(--deviceTheme);
 			}
 
 			@keyframes abrirJanela{
@@ -61,7 +71,7 @@
 			}
 			
 			#barraMenu{
-				background-color: rgb(128, 192, 255);
+				background-color: var( --corTema );
 				position: fixed;
 				width: 100%;
 				top: 0px;
@@ -79,7 +89,7 @@
 				text-align: center;
 				font-size: 25pt;
 				line-height: 50px;
-				color: rgb(50,50,50);
+				color: var( --corTema2 );
 				padding: 10px 20px;
 				width: 40px;
 			}
@@ -91,20 +101,20 @@
 			input, button, .botao{
 				font-size: 15pt;
 				line-height: 50px;
-				color: rgb(50,50,50);
+				color: var( --corTema2 );
 				padding: 0px 10px;
-				border: 1px solid gray;
+				border: 1px solid var(--corTema2);
 				border-radius: 5px;
 			}
 			
 			.botao{
-				background-color: #dddddd;
+				background-color: var( --corTema3 );
 			}
 			
 			div.tituloJanela{
 				display: grid;
-				grid-template-columns: 50px 75% 50px 50px;
-				justify-content: space-between;
+				grid-template-columns: 70px auto 50px 50px;
+				justify-content: space-around;
 				margin-bottom: 10px;
 				background: var(--corTema);
 			}
@@ -124,11 +134,12 @@
 				border-radius: 20px 20px 0 0;
 			}
 
-			div.tituloJanela h2{
+			div.tituloJanela h4, div.tituloJanela h2{
 				padding: 20px 20px 20px 0px;
+				align-self: center;
 			}
 
-			.tituloJanela a, .tituloJanela h2{
+			.tituloJanela a, .tituloJanela h4, .tituloJanela h2{
 				color: var(--corTema2);
 			}
 
@@ -137,7 +148,9 @@
 				box-shadow: 0px 3px 9px #aaa;
 			}
 
-			section{
+			section p, section p span{ color: var( --corTema2 ); }
+
+			section, table{
 				width: 80%;
 				margin: 0 auto;
 			}
@@ -146,7 +159,7 @@
 				border-radius: 20px;
 			}
 
-			#listaEmCriacao div section, #visualizarLista section, #excluir section{
+			#listaEmCriacao div section, #visualizarLista section, #excluir section, table{
 				padding: 2% 5%;
 				overflow-y: scroll;
 				max-height: 350px;
@@ -167,12 +180,13 @@
 			#menuBlock:target, #addLista:target, #visualizarLista:target , #excluir:target {
 				box-shadow: 5px 5px 25px #555;
 				position: fixed;
-				background-color: white;
+				background-color: var( --deviceTheme );
 			}
 
 			#menuBlock a{
 				display: block;
 				width: 300px;
+				text-align: left;
 			}
 
 			#listaEmCriacao{
@@ -180,7 +194,14 @@
 			}
 			
 			#listaEmCriacao p, #listaEmCriacao p span, #visualizarLista p{
-				border: 1px solid rgb(200,200,200);
+				border: 1px solid var(--corTema);
+			}
+
+			span.min100{
+				text-align: center;
+				min-width: 100px;
+				border: solid  var(--corTema2);
+				border-width: 0 1px;
 			}
 
 			#listaEmCriacao p, #campoAdicionar, #visualizarLista p{
@@ -192,6 +213,7 @@
 			#visualizarLista p{
 				display: grid;
 				grid-template-columns: 40% 20% 10% 10% 10% 10%;
+				color: var(--corTema2);
 			}
 
 			table {
@@ -200,7 +222,9 @@
 			}
 
 			table td {
-				border: 1px solid #aaa;
+				border: 1px solid var( --corTema );
+				color: var( --corTema2 );
+				padding: 10px 0;
 			}
 			
 			.escondido{
@@ -215,7 +239,7 @@
 			}
 
 			.exportarListas {
-				background: #f8f8f8;
+				background: #f8f8f888;
 				padding: 2% 5%;
 				width: 80%;
 				margin: 5px auto;
@@ -226,7 +250,8 @@
 				background: #fff;
 				padding: 10px;
 				margin: 5px;
-				border: 1px solid #aaf;
+				border: 1px solid var( --corTema );
+				color: var( --corTema );
 				border-radius: 10px;
 				box-shadow: 0 1px 5px #aaa;
 			}
