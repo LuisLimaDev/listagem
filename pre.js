@@ -300,7 +300,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 
 		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
 
-		getById("visualizarLista").append( criar({
+		rolarTabela.append( criar({
 			nomeDoElemento: "div",
 			atributoClass: "exportarListas",
 			atributoID: "extrasDaLista",
