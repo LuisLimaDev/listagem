@@ -449,7 +449,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					linkAbre = criar({
 						nomeDoElemento: "a",
 						atributoID: listasSeparadas[cntListas],
-						atributoHREF: "#" + listasSeparadas[cntListas],
+						atributoHREF: "#visualizarLista",
 						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( this.id );',
 						conteudoInterno: secaoItems.outerHTML
 					});
