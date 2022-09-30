@@ -294,16 +294,17 @@ root.style.setProperty( "--corTema3", corTema3 );
 		divTituloJanelaSecao3.append( tbodyShow );
 		rolarTabela.append( divTituloJanelaSecao3 );
 		getById("visualizarLista").append( rolarTabela );
-		valorEstimadoDaLista = novoElm("p");
-		valorEstimadoDaLista.innerHTML = "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>"
-		getById("visualizarLista").append( valorEstimadoDaLista );
+		// valorEstimadoDaLista = novoElm("p");
+		// valorEstimadoDaLista.innerHTML = "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>"
+		// getById("visualizarLista").append( valorEstimadoDaLista );
 
 		divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td colspan='3'>Total estimado da compra</td><td>"+ valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
 
 		getById("visualizarLista").append( criar({
 			nomeDoElemento: "div",
 			atributoClass: "exportarListas",
-			conteudoInterno: "" + criar({
+			atributoID: "extrasDaLista",
+			conteudoInterno: "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>" + criar({
 				nomeDoElemento:"a",
 				atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
 				conteudoInterno:"&#10515; Exportar em formato Planilha *.HTM"
@@ -445,7 +446,14 @@ root.style.setProperty( "--corTema3", corTema3 );
 						cntItens++;
 					}
 					secaoItems.append( valorEstimadoDaCompra );
-					listaGuardada.append( secaoItems );
+					linkAbre = criar({
+						nomeDoElemento: "a",
+						atributoID: listasSeparadas[cntListas],
+						atributoHREF: "#" + listasSeparadas[cntListas],
+						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( this.id );',
+						conteudoInterno: secaoItems.outerHTML
+					});
+					listaGuardada.append( linkAbre );
 					getById("listaEmCriacao").append(listaGuardada);
 				}
 					cntListas++;
