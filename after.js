@@ -43,5 +43,5 @@
 		abrirLista( getById("guardarID").value );
 	});
 	
-	getById("visualizarLista").style.height = ((window.innerHeight - getById("barraMenu").offsetHeight) - 40 ) + "px";
+	getById("visualizarLista").style.height = ((window.innerHeight - getById("barraMenu").offsetHeight) - 90 ) + "px";
 	carregarListasAdicionadas();
