@@ -6,7 +6,7 @@ let root = document.documentElement;
 
 corTema = "rgb(128 192 255)";
 corTema2 = "rgb(54 72 100)";
-corTema3 = "rgb(214 227 255)";
+corTema3 = "rgb(237 237 237)";
 
 root.style.setProperty( "--corTema", corTema );
 root.style.setProperty( "--corTema2", corTema2 );
@@ -204,8 +204,15 @@ root.style.setProperty( "--corTema3", corTema3 );
 
 		divTituloJanela = novoElm("div");
 		divTituloJanelaSecao = novoElm("section");
-		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
+		divTituloJanelaSecao2 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: "+ corTema +"; text-align: center;'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
 		divTituloJanelaSecao3 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td><td>Alterar</td><td>Excluir</td></tr></thead>" });
+		tbodyShow = criar({
+			nomeDoElemento: "tbody"
+		});
+		rolarTabela = criar({
+			nomeDoElemento: "div",
+			atributoClass: "rolarTabela"
+		});
 		divTituloJanela.setAttribute("class", "tituloJanela");
 		divTituloJanela.append( btFechar, tituloAberto, btNovoItem, btExcluirLista );
 		getById("visualizarLista").append( divTituloJanela );
@@ -274,13 +281,19 @@ root.style.setProperty( "--corTema3", corTema3 );
 				// linhaDoItem.append( verDescricao, verUnidades, verPreco, verSubtotal, btEditarItem, btRemoverItem );
 				
 				// divTituloJanelaSecao.append( linhaDoItem );
-				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
-				divTituloJanelaSecao3.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td><td>"+btEditarItem.outerHTML+"</td><td>"+ btRemoverItem.outerHTML +"</td>" }) );
+				lOdd = "";
+				if( cntItensDaListaAberta%2 == 0 ){
+					lOdd = " linhaOdd"
+				}
+				divTituloJanelaSecao2.append( criar({ nomeDoElemento:"tr", atributoClass: lOdd, conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
+				tbodyShow.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao.innerText+"</td><td class='number'>"+verUnidades.innerText.replace(".",",") +"</td><td class='number'>R$ "+verPreco.innerText.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}).replace(".",",")+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td><td>"+btEditarItem.outerHTML+"</td><td>"+ btRemoverItem.outerHTML +"</td>" }) );
 			}
 			cntItensDaListaAberta++;
 		}
 		// getById("visualizarLista").append( divTituloJanelaSecao );
-		getById("visualizarLista").append( divTituloJanelaSecao3 );
+		divTituloJanelaSecao3.append( tbodyShow );
+		rolarTabela.append( divTituloJanelaSecao3 );
+		getById("visualizarLista").append( rolarTabela );
 		valorEstimadoDaLista = novoElm("p");
 		valorEstimadoDaLista.innerHTML = "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>"
 		getById("visualizarLista").append( valorEstimadoDaLista );
@@ -316,7 +329,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 	}
 
 	downloadLista=( nomeDoArquivo, conteudo )=>{
-		cabecalho = `<html xmlns:o="urn:schemas-microsoft-com:office:office"xmlns:x="urn:schemas-microsoft-com:office:excel"xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta name=ProgId content=Excel.Sheet><meta name=Generator content="Microsoft Excel 12"><title>`+ nomeDoArquivo +`</title><style>td{ border: 1px solid #000; } .number{text-align: right} </style></head>`;
+		cabecalho = `<html xmlns:o="urn:schemas-microsoft-com:office:office"xmlns:x="urn:schemas-microsoft-com:office:excel"xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta name=ProgId content=Excel.Sheet><meta name=Generator content="Microsoft Excel 12"><title>`+ nomeDoArquivo +`</title><style>table{border-spacing: 0; border-collapse: collapse; width: 100%} td{ padding: 10px; border: 1px solid #000; } .number{text-align: right} .linhaOdd{ background: `+ corTema3 +`}</style></head>`;
 		conteudo = cabecalho + "<body>" + conteudo + "</body></html>";
 		download( nomeDoArquivo + ".htm", conteudo );
 	}
@@ -383,7 +396,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					legendaDesc.innerText = "Descrição";
 					
 					legendaUnid = novoElm("span");
-					legendaUnid.innerText = "Unidades";
+					legendaUnid.innerText = "Unid.";
 					
 					legendaPrec = novoElm("span");
 					legendaPrec.innerText = "Preço";
