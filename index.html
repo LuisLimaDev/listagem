@@ -137,6 +137,7 @@
 			div.tituloJanela h4, div.tituloJanela h2{
 				padding: 20px 20px 20px 0px;
 				align-self: center;
+				font-size: 10pt;
 			}
 
 			.tituloJanela a, .tituloJanela h4, .tituloJanela h2{
@@ -157,6 +158,7 @@
 
 			.rounded{
 				border-radius: 20px;
+				font-size: 9pt;
 			}
 
 			#listaEmCriacao div section, #visualizarLista section, #excluir section, table{
@@ -181,7 +183,6 @@
 				box-shadow: 5px 5px 25px #555;
 				position: fixed;
 				background-color: var( --deviceTheme );
-				overflow-y: auto;
 			}
 
 			#menuBlock a{
@@ -217,12 +218,21 @@
 				color: var(--corTema2);
 			}
 
+			.rolarTabela {
+				overflow: scroll;
+				height: 80%;
+			}
+
 			table {
 				width: 100%;
 				text-align: center;
 				overflow-x: auto;
 				border-spacing: 0;
 				border-collapse: collapse;
+			}
+
+			tbody tr:nth-child(even) {
+				background: var(--corTema3);
 			}
 
 			table td {
