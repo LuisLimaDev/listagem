@@ -8,6 +8,10 @@
 		trabalharCampoDeTexto()
 	});
 
+	getById("importarLista").addEventListener("change", function(){
+		carregarImportado()
+	});
+
 	getById("editProdutoNaLista").addEventListener("click", function(){
 		editProdutoNaLista();
         janelaAtiva = getById("visualizarLista");
@@ -21,10 +25,14 @@
 	
 	getById("novaLista").addEventListener("click", function(){
 		criarIdParaLista();
-        janelaAtiva = getById("addLista");
-		janelaAtiva.classList.remove("escondido");
-		getById("addLista").style.display = "block";
-		animAbrir( getById("addLista") );
+	});
+	
+	getById("importList").addEventListener("click", function(){
+		// criarIdParaLista();
+        // janelaAtiva = getById("importar");
+		// janelaAtiva.classList.remove("escondido");
+		// getById("importar").style.display = "block";
+		// animAbrir( getById("importar") );
 	});
 	
 	getById("descreverItem").addEventListener("keyup", function(){
@@ -43,5 +51,5 @@
 		abrirLista( getById("guardarID").value );
 	});
 	
-	getById("visualizarLista").style.height = ((window.innerHeight - getById("barraMenu").offsetHeight) - 90 ) + "px";
+	getById("visualizarLista").style.height = (window.innerHeight-20)+'px';
 	carregarListasAdicionadas();
