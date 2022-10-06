@@ -39,8 +39,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 	}
 	
 	function mostrarIcones(divSaidaIcones){
+		/** emojis &#129293; - &#129535;**/
+		/** emojis &#129648; - &#129685;**/
+		/** emojis &#127744; - &#128762;**/
+		/** emojis &#128992; - &#129003;**/
 		numeradorIcone = 0;
-		while( numeradorIcone < 13311 ){
+		while( numeradorIcone <= 10000 ){
 			saidaCode = novoElm("span");
 			saidaGrfx = novoElm("span");
 			saidaGrfx.innerHTML = "&#" + numeradorIcone + ";";
@@ -154,7 +158,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		tituloAberto.innerText = listaAberta.split(" inicioDaLista ")[0];
 		
 		btExcluirLista = novoElm("a");
-		btExcluirLista.innerHTML = "&#10006;"; //Forma de "x" grande
+		btExcluirLista.innerHTML = icones.delItem; //Forma de "x" grande
 		btExcluirLista.href = "#excluir";
 		btExcluirLista.id =  idParaVisualizar;
 		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
@@ -167,7 +171,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		
 		btFechar = novoElm("a");
 		btFechar.href = "#Voltar";
-		btFechar.innerHTML = "&#10094;";
+		btFechar.innerHTML = icones.setas[1];
 		btFechar.setAttribute("class", "btQuadrado");
 		btFechar.addEventListener("click", function(evntBtFechar){
 			animFechar( getById("visualizarLista") );
@@ -307,12 +311,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 			conteudoInterno: "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>" + criar({
 				nomeDoElemento:"a",
 				atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
-				conteudoInterno:"&#10515; Exportar em formato Planilha *.HTM"
-			}).outerHTML /**  + criar({
+				conteudoInterno:"&#11147; Exportar em formato Planilha *.HTM"
+			}).outerHTML + criar({
 				nomeDoElemento: "a",
 				atributoHREF: `javascript:download("lista.ldc", listaAberta )`,
 				conteudoInterno: "&#10515; Exportar em formato do APP *.LDC"
-			}).outerHTML **/
+			}).outerHTML 
 		}) );
 
 	}
@@ -345,7 +349,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 			cntListas = 0;
 			
 			while ( cntListas < listasSeparadas.length ){
-				if (listasSeparadas[cntListas] != ""){
+				if (listasSeparadas[cntListas] != "" && listasSeparadas[cntListas] != "undefined" && listasSeparadas[cntListas] != undefined ){
 					
 					listaGuardada = criar({
 						nomeDoElemento:"div",
@@ -375,7 +379,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					btExcluirLista = novoElm("a");
 					btExcluirLista.href = "#excluir";
 					btExcluirLista.id =  listasSeparadas[cntListas];
-					btExcluirLista.innerHTML = "&#10006;";
+					btExcluirLista.innerHTML = icones.delItem;
 					btExcluirLista.setAttribute("class", "btQuadrado");
 					btExcluirLista.addEventListener("click", function(){
 						confirmacaoExcluirLista( this.id );
@@ -477,12 +481,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 			botaoMais = novoElm("button");
 			nomeAdicionado = novoElm("span");
 			nomeAdicionado.innerText = descricaoDoItem.value;
-			quatidadeDeCompra.innerText = qtdCompra.value;
-			valorDoItem.innerText = precoDoItem.value;
+			quatidadeDeCompra.innerText = qtdCompra.value + 0.001;
+			valorDoItem.innerText = precoDoItem.value + 0.001;
 			
 			idLista = getById("guardarID").value;
 			
-			itensAdicionados = localStorage.getItem( idLista ) + descricaoDoItem.value + " ++ " + qtdCompra.value + " ++ " + precoDoItem.value + " && ";
+			itensAdicionados = localStorage.getItem( idLista ) + " && " + descricaoDoItem.value + " ++ " + qtdCompra.value + " ++ " + precoDoItem.value;
 			localStorage.setItem( idLista, itensAdicionados);
 			
 			itemAdicionado.append(nomeAdicionado, quatidadeDeCompra, valorDoItem);
@@ -514,7 +518,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		btExcluirLista = novoElm("a");
 		btExcluirLista.setAttribute("class", "btQuadrado");
 		btExcluirLista.href = "#excluir?idLista=" + idLista;
-		btExcluirLista.innerHTML = "&#10799;";
+		btExcluirLista.innerHTML = icones.delItem;
 		
 		btEditarLista = novoElm("a");
 		btEditarLista.setAttribute("class", "btQuadrado");
@@ -567,3 +571,92 @@ root.style.setProperty( "--corTema3", corTema3 );
 		getById("listaEmCriacao").append(listaNova);
 		carregarListasAdicionadas();
 	}
+
+carregarImportado=()=>{
+	lista = getById("importarLista").files[0];
+	leitor = new FileReader();
+	leitor.addEventListener("load", lista);
+	leitor.readAsText( lista );
+	getById("lImport").style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10"><rect id="" x="0" y="0"  width="100" height="100" style="fill: ` + corTema + `"></rect></svg>')`;
+
+	setTimeout(function(){
+		getById("previaImportado").innerText = leitor.result;
+		verImportado();
+		// getById("lImport").style.backgroundSize = "100%";
+	}, 3000);
+}
+
+loader=()=>{
+	iLoad=0;
+	setTimeout(function(){
+		while( iLoad < 100 ){
+			getById("lImport").style.backgroundSize = iLoad +"%";
+			console.log( iLoad );
+			iLoad++
+		}
+	}, 1000);
+}
+
+verImportado=()=>{
+
+	listaAberta = getById("previaImportado").innerText.toString();
+
+	divTituloJanelaSecao3 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
+	tbodyShow = criar({
+		nomeDoElemento: "tbody"
+	});
+
+
+	infoLista = listaAberta.split(" inicioDaLista ")[0].split(" && ");
+	itensDaListaAberta = listaAberta.split(" inicioDaLista ")[1].split(" && ");
+	cntItensDaListaAberta = 0;
+	valorListaAberta = 0;
+	while( cntItensDaListaAberta < itensDaListaAberta.length ){
+		if( itensDaListaAberta[cntItensDaListaAberta] != "" ){
+
+			verDescricao = itensDaListaAberta[cntItensDaListaAberta].split("++")[0];
+			verUnidades = itensDaListaAberta[cntItensDaListaAberta].split(" ++")[1];
+			verPreco = itensDaListaAberta[cntItensDaListaAberta].split("++")[2];
+			if( cntItensDaListaAberta == (itensDaListaAberta.length-1) ){
+				verPreco = verPreco.slice(0, (verPreco.length - 2));
+			}
+			subtotal = (verPreco * verUnidades);
+			verSubtotal = criar({ nomeDoElemento:"span", atributoClass: "min100", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
+
+			quantidadeDoItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) : 0 );
+			valorUnidadeItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) : 0 );
+			
+			valorListaAberta = valorListaAberta + ( quantidadeDoItem * valorUnidadeItem );
+
+			lOdd = "";
+			if( cntItensDaListaAberta%2 == 0 ){
+				lOdd = " linhaOdd"
+			}tbodyShow.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao+"</td><td class='number'>"+verUnidades.replace(".",",") +"</td><td class='number'>R$ "+verPreco+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
+		}
+		cntItensDaListaAberta++;
+	}
+	
+	divTituloJanelaSecao3.append( tbodyShow );
+	divTituloJanelaSecao3.append( criar({
+		nomeDoElemento: "div",
+		atributoClass: "optsImport",
+		conteudoInterno: "<a class='botao' href='javascript:salvarImportado()'>Confirmar</a><button>Cancela</button>"
+	}) );
+	getById("previaImportado").innerHTML = "";
+	getById("previaImportado").append( divTituloJanelaSecao3 );
+
+
+}
+
+salvarImportado=()=>{
+	pegarHora = new Date();
+	idLista = pegarHora.getFullYear().toString() + de0a9((pegarHora.getMonth()+1)).toString() + de0a9(pegarHora.getDate()).toString() + de0a9(pegarHora.getHours()).toString() + de0a9(pegarHora.getMinutes()).toString() + de0a9(pegarHora.getSeconds()).toString();
+	idVisualDaLista = "Importado " + diasDaSemana[ pegarHora.getDay() ] + ", às " + de0a9(pegarHora.getHours()).toString() + ":" + de0a9(pegarHora.getMinutes()).toString() + ", dia " + de0a9(pegarHora.getDay()).toString() + "/" + de0a9((pegarHora.getMonth()+1)).toString() + "/" + pegarHora.getFullYear().toString();
+
+	localStorage.setItem(idLista, idVisualDaLista + ", e " + listaAberta.slice(0, listaAberta.length-2) );
+	if( !(!(localStorage.getItem("idDasListas"))) == false ){
+		localStorage.setItem("idDasListas", idLista)
+	} else {
+		localStorage.idDasListas = idLista + " ;; " + localStorage.idDasListas;
+	}
+}
