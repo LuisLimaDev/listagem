@@ -72,7 +72,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 			animFechar( getById("excluir") );
 		});
 		
-		nada = novoElm("a");
+		linkVazio = novoElm("a");
 		botaoNao = novoElm("button");
 		botaoNao.innerHTML = "Não, foi engano.";
 		botaoNao.classList.add("botao");
@@ -82,7 +82,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		});
 		
 		botoes.append( botaoSim, botaoNao )
-		tituloJanela.append( nada, perguntaPraExluir )
+		tituloJanela.append( linkVazio, perguntaPraExluir )
 		getById("excluir").append( tituloJanela, botoes );
 	}
 
@@ -114,8 +114,8 @@ root.style.setProperty( "--corTema3", corTema3 );
 	
 	function removerItem( idDoItem ){
 		getById("descreverItem").value = "";
-		getById("qtdCompra").value = "";
-		getById("precoDoItem").value = "";
+		getById("qtdCompra").value = "0.001";
+		getById("precoDoItem").value = "0.001";
 		getById("descreverItem").name = idDoItem;
 		editProdutoNaLista();
 	}
@@ -577,86 +577,93 @@ carregarImportado=()=>{
 	leitor = new FileReader();
 	leitor.addEventListener("load", lista);
 	leitor.readAsText( lista );
-	getById("lImport").style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10"><rect id="" x="0" y="0"  width="100" height="100" style="fill: ` + corTema + `"></rect></svg>')`;
+	getById("lImport").style.backgroundSize = "100% 100px;";
+	// getById("lImport").style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10"><rect id="" x="0" y="0"  width="100" height="100" style="fill: ` + corTema + `"></rect></svg>')`;
 
 	setTimeout(function(){
 		getById("previaImportado").innerText = leitor.result;
-		verImportado();
-		// getById("lImport").style.backgroundSize = "100%";
-	}, 3000);
-}
 
-loader=()=>{
-	iLoad=0;
-	setTimeout(function(){
-		while( iLoad < 100 ){
-			getById("lImport").style.backgroundSize = iLoad +"%";
-			console.log( iLoad );
-			iLoad++
-		}
-	}, 1000);
-}
+		setTimeout(function(){
 
-verImportado=()=>{
+			listaAberta = getById("previaImportado").innerText.toString();
 
-	listaAberta = getById("previaImportado").innerText.toString();
-
-	divTituloJanelaSecao3 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
-	tbodyShow = criar({
-		nomeDoElemento: "tbody"
-	});
+			divTituloJanelaSecao3 = criar({ nomeDoElemento:"table", conteudoInterno:"<thead style='background: var( --corTema )'><tr><td>Descrição</td><td>Unidade</td><td>Preço</td><td>Subtotal</td></tr></thead>" });
+			tbodyShow = criar({
+				nomeDoElemento: "tbody"
+			});
 
 
-	infoLista = listaAberta.split(" inicioDaLista ")[0].split(" && ");
-	itensDaListaAberta = listaAberta.split(" inicioDaLista ")[1].split(" && ");
-	cntItensDaListaAberta = 0;
-	valorListaAberta = 0;
-	while( cntItensDaListaAberta < itensDaListaAberta.length ){
-		if( itensDaListaAberta[cntItensDaListaAberta] != "" ){
+			infoLista = listaAberta.split(" inicioDaLista ")[0].split(" && ");
+			itensDaListaAberta = listaAberta.split(" inicioDaLista ")[1].split(" && ");
+			cntItensDaListaAberta = 0;
+			valorListaAberta = 0;
+			itensReorg = "";
+			while( cntItensDaListaAberta < itensDaListaAberta.length ){
+				if( itensDaListaAberta[cntItensDaListaAberta] != "" ){
 
-			verDescricao = itensDaListaAberta[cntItensDaListaAberta].split("++")[0];
-			verUnidades = itensDaListaAberta[cntItensDaListaAberta].split(" ++")[1];
-			verPreco = itensDaListaAberta[cntItensDaListaAberta].split("++")[2];
-			if( cntItensDaListaAberta == (itensDaListaAberta.length-1) ){
-				verPreco = verPreco.slice(0, (verPreco.length - 2));
+					verDescricao = itensDaListaAberta[cntItensDaListaAberta].split("++")[0];
+					verUnidades = itensDaListaAberta[cntItensDaListaAberta].split(" ++")[1];
+					verPreco = itensDaListaAberta[cntItensDaListaAberta].split("++")[2];
+					if( cntItensDaListaAberta == (itensDaListaAberta.length-1) ){
+						verPreco = verPreco.slice(0, (verPreco.length - 2));
+					}
+					subtotal = (verPreco * verUnidades);
+					verSubtotal = criar({ nomeDoElemento:"span", atributoClass: "min100", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
+
+					quantidadeDoItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) : 0 );
+					valorUnidadeItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) : 0 );
+					
+					valorListaAberta = valorListaAberta + ( quantidadeDoItem * valorUnidadeItem );
+
+					lOdd = "";
+					if( cntItensDaListaAberta%2 == 0 ){
+						lOdd = " linhaOdd"
+					}tbodyShow.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao+"</td><td class='number'>"+verUnidades.replace(".",",") +"</td><td class='number'>R$ "+verPreco+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
+				}
+				itensReorg = verDescricao + " ++ " + verUnidades + " ++ " + verPreco + " && " + itensReorg;
+				cntItensDaListaAberta++;
 			}
-			subtotal = (verPreco * verUnidades);
-			verSubtotal = criar({ nomeDoElemento:"span", atributoClass: "min100", conteudoInterno: subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) });
-
-			quantidadeDoItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[1] ) : 0 );
-			valorUnidadeItem = ( parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) ? parseFloat( itensDaListaAberta[cntItensDaListaAberta].split("++")[2] ) : 0 );
-			
-			valorListaAberta = valorListaAberta + ( quantidadeDoItem * valorUnidadeItem );
-
-			lOdd = "";
-			if( cntItensDaListaAberta%2 == 0 ){
-				lOdd = " linhaOdd"
-			}tbodyShow.append( criar({ nomeDoElemento:"tr", conteudoInterno:"<td>"+verDescricao+"</td><td class='number'>"+verUnidades.replace(".",",") +"</td><td class='number'>R$ "+verPreco+"</td><td class='number'>"+ subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) +"</td>" }) );
-		}
-		cntItensDaListaAberta++;
-	}
-	
-	divTituloJanelaSecao3.append( tbodyShow );
-	divTituloJanelaSecao3.append( criar({
-		nomeDoElemento: "div",
-		atributoClass: "optsImport",
-		conteudoInterno: "<a class='botao' href='javascript:salvarImportado()'>Confirmar</a><button>Cancela</button>"
-	}) );
-	getById("previaImportado").innerHTML = "";
-	getById("previaImportado").append( divTituloJanelaSecao3 );
+			divTituloJanelaSecao3.append( tbodyShow );
+			divTituloJanelaSecao3.append( criar({
+				nomeDoElemento: "div",
+				atributoClass: "optsImport",
+				conteudoInterno: "<a class='botao' href='javascript:salvarImportado()'>Confirmar</a><button>Cancela</button>"
+			}) );
+			getById("previaImportado").innerHTML = "";
+			getById("previaImportado").append( divTituloJanelaSecao3 );
 
 
+		},50);
+		leitor = [];
+	}, 100);
 }
+
+// verImportado=()=>
 
 salvarImportado=()=>{
 	pegarHora = new Date();
 	idLista = pegarHora.getFullYear().toString() + de0a9((pegarHora.getMonth()+1)).toString() + de0a9(pegarHora.getDate()).toString() + de0a9(pegarHora.getHours()).toString() + de0a9(pegarHora.getMinutes()).toString() + de0a9(pegarHora.getSeconds()).toString();
 	idVisualDaLista = "Importado " + diasDaSemana[ pegarHora.getDay() ] + ", às " + de0a9(pegarHora.getHours()).toString() + ":" + de0a9(pegarHora.getMinutes()).toString() + ", dia " + de0a9(pegarHora.getDay()).toString() + "/" + de0a9((pegarHora.getMonth()+1)).toString() + "/" + pegarHora.getFullYear().toString();
 
-	localStorage.setItem(idLista, idVisualDaLista + ", e " + listaAberta.slice(0, listaAberta.length-2) );
+	chamarImportada( idLista );
+	localStorage.setItem(idLista, idVisualDaLista + ", e " + infoLista + " inicioDaLista " + itensReorg );
 	if( !(!(localStorage.getItem("idDasListas"))) == false ){
 		localStorage.setItem("idDasListas", idLista)
 	} else {
 		localStorage.idDasListas = idLista + " ;; " + localStorage.idDasListas;
 	}
+	carregarListasAdicionadas();
+}
+
+chamarImportada=( idImportada )=>{
+	getById("importarLista").value = "";
+	getById("previaImportado").innerHTML = "";
+	verImportado = criar({
+		nomeDoElemento: "a",
+		atributoHREF: "#visualizarLista",
+		conteudoInterno: "Ver Lista importada"
+	});
+	verImportado.addEventListener("click", function(){ animAbrir( getById("visualizarLista") ); abrirLista( idImportada ); getById("previaImportado").innerHTML = ""});
+	getById("previaImportado").append( verImportado );
+	
 }
