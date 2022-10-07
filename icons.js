@@ -26,5 +26,8 @@ icones= {
 	confirma: ['&#127383;'],
 	setas: ['&#129128;', '&#129120;' /** esquerda **/ , '&#129122;', '&#129130;' /** direita **/, '&#129129;', '&#129121;' /** acima **/, '&#129131;', '&#129123;' /** abaixo **/ ],
 	deletar: ['&#9249;'],
-	config: ['&#9965;']
+	config: ['&#9965;'],
+	draw: function(forma){
+		return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40"><text fill="rgb(0 0 0)" style="transform: scale(1.5) translate(7px, 20px);">' + forma + '</text></svg>'
+	}
 }
