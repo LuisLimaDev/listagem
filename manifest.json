@@ -2,8 +2,22 @@
 
 	"manifest_version": 2,
 	"name": "lista",
+	"background_color": "#364864",
+	"start_url": "index.html",
+	"theme_color": "#80c0ff",
 	"version": "1.0",
-
+	"icons": [
+		{
+		  "src": "favicon.png",
+		  "type": "image/png",
+		  "sizes": "192x192"
+		},{
+		  "src": "icon.png",
+		  "type": "image/png",
+		  "sizes": "256x256",
+		   "purpose": "any maskable"
+		}
+	],
 	"permissions": [
 		"http://*/*",
 		"https://*/*",
@@ -16,8 +30,8 @@
 	],
 
 	"browser_action": {
-	"default_icon": "icone.png",
-	"default_popup": "index.html"//,
-	//"default_popup": "https://luislimadev.github.io/LLDev"
+		"default_icon": "icone.png",
+		"default_popup": "index.html"//,
+		"default_popup": "https://luislimadev.github.io/listagem"
 	}
 }
