@@ -31,7 +31,7 @@
 
 	"browser_action": {
 		"default_icon": "icone.png",
-		"default_popup": "index.html"//,
+		"default_popup": "index.html",
 		"default_popup": "https://luislimadev.github.io/listagem"
 	}
 }
