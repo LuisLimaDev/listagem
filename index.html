@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-Br">
 	<head>
-		<title>Lista de compras</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="description" content="Aplicativo fácil e leve para criar, editar, exportar e importar listas de compras.">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="theme-color" content="#364864"/>
+		<meta name="theme-color" content="#80c0ff"/>
+		<meta name="description" content="Um aplicativo simples e eficaz de listas de compras.">
 		<link rel="apple-touch-icon" href="favicon.png">
-		<link rel="manifest" href="manifest.json">
 		<link rel="icon" type="image/x-icon" content="icone.png">
+		<link rel="manifest" content="manifest.json">
+		<script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
 		
 		<script src="https://luislimadev.github.io/LLDev/elemental.js"></script>
+		<!-- <script src="elemental.js"></script> -->
 		<script src="icons.js"></script>
 		<script src="pre.js"></script>
-		<!-- <script> -->
-		<!-- // For Firebase JS SDK v7.20.0 and later, measurementId is optional -->
-			<!-- const firebaseConfig = { -->
-				<!-- apiKey: "AIzaSyBS7mFM1xUrRM1ZcBmYXVBCgP8KGz_IfbQ", -->
-				<!-- authDomain: "lista-de-compras-lldev.firebaseapp.com", -->
-				<!-- projectId: "lista-de-compras-lldev", -->
-				<!-- storageBucket: "lista-de-compras-lldev.appspot.com", -->
-				<!-- messagingSenderId: "601667136240", -->
-				<!-- appId: "1:601667136240:web:e98b9c9fa03437fd5bb035", -->
-				<!-- measurementId: "G-HZBXN58EWW" -->
-			<!-- }; -->
-		<!-- </script> -->
+		<script src="script.js"></script>
 
+		<title>Lista de compras</title>
 		
 		<style>
+
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--corTema);
+	border-radius: 3px;
+	width: 3px;
+}
+
+::-webkit-scrollbar-track{
+	background-color: rgba(255,255,255,0.4);
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+	background-color: rgba(255,255,255,0.2);
+	border-radius: 3px;
+}
+
+
+
 		
 			*{
 				padding: 0px;
@@ -122,6 +134,12 @@
 				border-radius: 5px;
 			}
 
+			input#importarLista::file-selector-button {
+				background: none;
+				border: none;
+				color: var(--corTema2);
+			}
+
 			input, button {
 				display: block;
 				padding: 5px;
@@ -129,6 +147,7 @@
 				background: none;
 				width: 100%;
 				color: var(--corTema2);
+				font-size: 12pt;
 			}
 
 			label {
@@ -137,6 +156,8 @@
 				border-width: 1px;
 				padding: 10px 20px;
 				border-radius: 40px;
+				color: var(--corTema2);
+				font-size: 8pt;
 			}
 
 			button, button.botao, a.botao {
@@ -223,7 +244,7 @@
 				animation: 1s abrirJanela;
 				box-shadow: 5px 5px 0px 10000px #5558;
 				background-color: var( --deviceTheme );
-				position: absolute;
+				position: fixed;
 				top: 0;
 				display: block; animation: 1s abrirJanela;
 			}
@@ -322,6 +343,15 @@
 				display: grid;
 			}
 
+
+			div#previaImportado {
+				overflow-y: auto;
+			}
+
+			div#extrasDaLista span {
+				color: var(--corTema2);
+			}
+
 			.exportarListas a, .optsImport a {
 				background: #fff;
 				padding: 10px;
@@ -353,37 +383,16 @@
 					<a href="#inicio" >&#129120; </a>
 					<h2 style="font-size: 16pt">Menu principal</h2>
 				</div>
-				<a href="#addLista" id="novaLista">&#10010; Nova lista</a>
+				<a href="#addLista" id="novaLista" onclick='animAbrir( getById("addLista"))'>&#10010; Nova lista</a>
 				<a href="#importar" id="importList">&#11145; Importar listas</a>
 				<!-- <a href="#configs" id="configs">&#9965; Configurações</a> -->
 
 
-    <!-- Install button -->
-    <!-- Install button -->
-    <!-- Install button -->
-
-    <!-- Install button, hidden by default -->
-    <div id="installContainer" class="hidden">
-	 <p id="requireHTTPS" class="hidden">Check</p>
-      <button id="butInstall" type="button">
-        Install
-      </button>
-    </div>
-
-    <!-- import the webpage's javascript file -->
-    <script src="script.js" defer></script>
-    
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
-    <!-- <script src="https://button.glitch.me/button.js"></script> -->
-  
-
-    <!-- Install button -->
-    <!-- Install button -->
-    <!-- Install button -->
-
-
+				<div id="installContainer" class="hidden">
+					<p id="requireHTTPS" class="hidden"></p>
+					<button id="butInstall" type="button">Install</button>
+				</div>
+				<div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
 
 			</div>
 
@@ -399,7 +408,7 @@
 		<div id="addLista" class="escondido janela">
 
 			<div class="tituloJanela">
-				<a href="#inicio" id="fecharEditor" class="btFechar">&#129120;</a>
+				<a href="#visualizarLista" id="fecharEditor" class="btFechar">&#129120;</a>
 				<h2>Item para a lista</h2>
 			</div>
 			
@@ -421,7 +430,8 @@
 				<h2>Importar lista</h2>
 			</div>
 			<div class="conteudoJanela">
-				<label id="lImport" class="anmLabel">Selecione um arquivo de formato *.LDC <input type="file" id="importarLista" style="display:none"/></label>
+				<label id="lImport" class="anmLabel">Selecione um arquivo de formato *.LDC <input type="file" id="importarLista" style=""/></label>
+				<button onclick="carregarImportado()">Exibir arquivo escolhido</button>
 				<div id="previaImportado" class="conteudoJanela"></div>
 			</div>
 

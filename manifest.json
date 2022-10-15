@@ -5,6 +5,7 @@
 	"background_color": "#364864",
 	"start_url": "index.html",
 	"theme_color": "#80c0ff",
+	"display":"minimal-ui",
 	"version": "1.0",
 	"icons": [
 		{

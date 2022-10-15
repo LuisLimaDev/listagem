@@ -7,7 +7,17 @@ let root = document.documentElement;
 corTema = "rgb(128 192 255)";
 corTema2 = "rgb(54 72 100)";
 corTema3 = "rgb(237 237 237)";
+tela = {
+	a: window.innerHeight || screen.availHeight,
+	l: window.innerWidth || screen.availWidth,
+	update:function(){
+		this.a=window.innerHeight || screen.availHeight;
+		this.l=window.innerWidth || screen.availWidth
+		root.style.setProperty( "--alt", (this.a-70)+"px" );
+	}
+};
 
+root.style.setProperty( "--alt", (tela.a-70)+"px" );
 root.style.setProperty( "--corTema", corTema );
 root.style.setProperty( "--corTema2", corTema2 );
 root.style.setProperty( "--corTema3", corTema3 );
@@ -582,6 +592,7 @@ carregarImportado=()=>{
 
 	setTimeout(function(){
 		getById("previaImportado").innerText = leitor.result;
+		getById("previaImportado").style.maxHeight = (tela.a - getById("previaImportado").offsetTop )+"px";
 
 		setTimeout(function(){
 
@@ -627,7 +638,7 @@ carregarImportado=()=>{
 			divTituloJanelaSecao3.append( criar({
 				nomeDoElemento: "div",
 				atributoClass: "optsImport",
-				conteudoInterno: "<a class='botao' href='javascript:salvarImportado()'>Confirmar</a><button>Cancela</button>"
+				conteudoInterno: "<a class='botao' href='javascript:salvarImportado()'>Confirmar</a><button onclick='cancelarImport()'>Cancela</button>"
 			}) );
 			getById("previaImportado").innerHTML = "";
 			getById("previaImportado").append( divTituloJanelaSecao3 );
@@ -638,7 +649,9 @@ carregarImportado=()=>{
 	}, 100);
 }
 
-// verImportado=()=>
+cancelarImport=()=>{
+	getById("previaImportado").innerHTML = "";
+}
 
 salvarImportado=()=>{
 	pegarHora = new Date();
