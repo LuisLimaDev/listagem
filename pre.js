@@ -351,9 +351,9 @@ root.style.setProperty( "--corTema3", corTema3 );
 
 	function carregarListasAdicionadas(){
 		if (!(!(localStorage.getItem("idDasListas"))) == false){
-			console.log("Nada encontrado!")
+			getById("listaEmCriacao").innerHTML = "<h2>Nenhuma lista criada<hr></h2>";
 		} else {
-			getById("listaEmCriacao").innerHTML = "";
+			getById("listaEmCriacao").innerHTML = "<h2>Listas armazenadas<hr></h2>";
 			listasGuardadas = localStorage.getItem("idDasListas");
 			listasSeparadas = listasGuardadas.split(" ;; ");
 			cntListas = 0;
