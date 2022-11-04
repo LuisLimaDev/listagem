@@ -3,6 +3,7 @@
     "manifest_version": 2,
     "short_name": "lista",
     "name": "Lista de compras",
+	"description": "Um app simples pra criação de lista de compras domésticas.",
     "background_color": "#364864",
     "start_url": "index.html",
     "theme_color": "#80c0ff",
