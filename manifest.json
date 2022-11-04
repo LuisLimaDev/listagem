@@ -1,38 +1,49 @@
 {
 
-	"manifest_version": 2,
-	"name": "lista",
-	"background_color": "#364864",
-	"start_url": "index.html",
-	"theme_color": "#80c0ff",
-	"display":"minimal-ui",
-	"version": "1.0",
-	"icons": [
-		{
-		  "src": "favicon.png",
-		  "type": "image/png",
-		  "sizes": "192x192"
-		},{
-		  "src": "icon.png",
-		  "type": "image/png",
-		  "sizes": "256x256",
-		   "purpose": "any maskable"
-		}
-	],
-	"permissions": [
-		"http://*/*",
-		"https://*/*",
-		"*://*/*",
+    "manifest_version": 2,
+    "name": "lista",
+    "background_color": "#364864",
+    "start_url": "index.html",
+    "theme_color": "#80c0ff",
+    "display": "minimal-ui",
+    "version": "1.0",
+    "icons": [{
+            "src": "icon64.png",
+            "type": "image/svg+xml",
+            "sizes": "64x64"
+        }, {
+            "src": "icon128.png",
+            "type": "image/svg+xml",
+            "sizes": "128x128"
+        }, {
+            "src": "icon192.png",
+            "type": "image/svg+xml",
+            "sizes": "192x192"
+        }, {
+            "src": "icon256.png",
+            "type": "image/svg+xml",
+            "sizes": "256x256",
+            "purpose": "any maskable"
+        }, {
+            "src": "icon512.png",
+            "type": "image/svg+xml",
+            "sizes": "512x512"
+        }
+    ],
+    "permissions": [
+        "http://*/*",
+        "https://*/*",
+        "*://*/*",
         "webRequest",
         "tabs",
         "clipboardWrite",
         "clipboardRead",
         "<all_urls>"
-	],
+    ],
 
-	"browser_action": {
-		"default_icon": "icone.png",
-		"default_popup": "index.html",
-		"default_popup": "https://luislimadev.github.io/listagem"
-	}
+    "browser_action": {
+        "default_icon": "icone.png",
+        "default_popup": "index.html",
+        "default_popup": "https://luislimadev.github.io/listagem"
+    }
 }
