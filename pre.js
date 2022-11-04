@@ -280,14 +280,14 @@ root.style.setProperty( "--corTema3", corTema3 );
 				
 				btEditarItem = novoElm("a");
 				btEditarItem.href = "#addLista";
-				btEditarItem.innerHTML = "&#9998;";
+				btEditarItem.innerHTML = icones.edita;
 				btEditarItem.id = cntItensDaListaAberta;
 				btEditarItem.setAttribute("class", "btQuadrado");
 				btEditarItem.setAttribute( "onclick", "btAltItem( this.id )" );
 				
 				btRemoverItem = novoElm("a");
 				btRemoverItem.href = "#visualizarLista";
-				btRemoverItem.innerHTML = "&#10799;";
+				btRemoverItem.innerHTML = icones.delItem;
 				btRemoverItem.id = cntItensDaListaAberta;
 				btRemoverItem.setAttribute("class", "btQuadrado");
 				btRemoverItem.setAttribute( "onclick", 'exclItem( this.id )' );
@@ -321,11 +321,11 @@ root.style.setProperty( "--corTema3", corTema3 );
 			conteudoInterno: "<span>Preço estimado da compra: " + valorListaAberta.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"}) + ".</span>" + criar({
 				nomeDoElemento:"a",
 				atributoHREF:`javascript:downloadLista("`+tituloAberto.innerText+`",divTituloJanelaSecao2.outerHTML)`,
-				conteudoInterno:"&#11147; Exportar em formato Planilha *.HTM"
+				conteudoInterno: icones.download + " Exportar em formato Planilha *.HTM"
 			}).outerHTML + criar({
 				nomeDoElemento: "a",
 				atributoHREF: `javascript:download("lista.ldc", listaAberta )`,
-				conteudoInterno: "&#10515; Exportar em formato do APP *.LDC"
+				conteudoInterno: icones.download + " Exportar em formato do APP *.LDC"
 			}).outerHTML 
 		}) );
 
