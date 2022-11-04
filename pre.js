@@ -407,7 +407,6 @@ root.style.setProperty( "--corTema3", corTema3 );
 
 					secaoItems = criar({
 						nomeDoElemento: "table",
-						atributoClass: "previaLista",
 						conteudoInterno: "<thead><tr><td>Descrição</td><td>Unid.</td><td>Preço</td></tr></thead>"
 					});
 
@@ -415,7 +414,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 					cntItens = 0;
 					
 					calcularCompra = 0;
-					valorEstimadoDaCompra = novoElm("p");
+					valorEstimadoDaCompra = novoElm("section");
 					
 					while (cntItens < conteudoNaLista.length ){
 						if( conteudoNaLista[cntItens] != "" ){
@@ -448,16 +447,16 @@ root.style.setProperty( "--corTema3", corTema3 );
 						}
 						cntItens++;
 					}
+					// secaoItems.append( criar({nomeDoElemento: "section", conteudoInterno: valorEstimadoDaCompra.outerHTML }) );
 					linkAbre = criar({
 						nomeDoElemento: "a",
 						atributoID: listasSeparadas[cntListas],
 						atributoStyle: "padding: 15px; display: block",
 						atributoHREF: "#visualizarLista",
 						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( this.id );',
-						conteudoInterno: secaoItems.outerHTML
+						conteudoInterno: "<section class='previaLista'>" + secaoItems.outerHTML + valorEstimadoDaCompra.outerHTML + "</section>"
 					});
-					secaoItems.append( criar({nomeDoElemento: "section", conteudoInterno: valorEstimadoDaCompra.outerHTML }) );
-					secaoItems.append( valorEstimadoDaCompra );
+					// secaoItems.append( valorEstimadoDaCompra );
 					listaGuardada.append( linkAbre );
 					getById("listaEmCriacao").append(listaGuardada);
 				}
