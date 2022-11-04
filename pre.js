@@ -170,7 +170,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		btExcluirLista = novoElm("a");
 		btExcluirLista.innerHTML = icones.delItem; //Forma de "x" grande
 		btExcluirLista.href = "#excluir";
-		btExcluirLista.id =  idParaVisualizar;
+		// btExcluirLista.id =  idParaVisualizar;
 		btExcluirLista.setAttribute("class", "Excluir btQuadrado");
 		btExcluirLista.addEventListener("click", function(evntBtFechar){
 			//evntBtFechar.preventDefault();
@@ -281,16 +281,16 @@ root.style.setProperty( "--corTema3", corTema3 );
 				btEditarItem = novoElm("a");
 				btEditarItem.href = "#addLista";
 				btEditarItem.innerHTML = icones.edita;
-				btEditarItem.id = cntItensDaListaAberta;
+				btEditarItem.dataset.id = cntItensDaListaAberta;
 				btEditarItem.setAttribute("class", "btQuadrado");
-				btEditarItem.setAttribute( "onclick", "btAltItem( this.id )" );
+				btEditarItem.setAttribute( "onclick", 'btAltItem( this.getAttribute("data-id") )' );
 				
 				btRemoverItem = novoElm("a");
 				btRemoverItem.href = "#visualizarLista";
 				btRemoverItem.innerHTML = icones.delItem;
-				btRemoverItem.id = cntItensDaListaAberta;
+				btRemoverItem.dataset.id = cntItensDaListaAberta;
 				btRemoverItem.setAttribute("class", "btQuadrado");
-				btRemoverItem.setAttribute( "onclick", 'exclItem( this.id )' );
+				btRemoverItem.setAttribute( "onclick", 'exclItem( this.getAttribute("data-id") )' );
 				
 				// linhaDoItem.append( verDescricao, verUnidades, verPreco, verSubtotal, btEditarItem, btRemoverItem );
 				
@@ -370,15 +370,16 @@ root.style.setProperty( "--corTema3", corTema3 );
 					
 					itensNaLista = localStorage.getItem( listasSeparadas[cntListas] );
 					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
-					h2Titulo = novoElm("h4");
+					h2Titulo = novoElm("h3");
 
 					visualizarLista = novoElm("a");
 					visualizarLista.innerText = tituloNaLista;
-					visualizarLista.id = listasSeparadas[cntListas];
+					// visualizarLista.id = listasSeparadas[cntListas];
+					visualizarLista.dataset.id = listasSeparadas[cntListas];
 					visualizarLista.href = "#visualizarLista";
 					visualizarLista.addEventListener("click", function(){
 						animAbrir( getById("visualizarLista") );
-						abrirLista( this.id );
+						abrirLista( this.getAttribute("data-id") );
 					});
 
 					h2Titulo.append( visualizarLista );
@@ -388,11 +389,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 					
 					btExcluirLista = novoElm("a");
 					btExcluirLista.href = "#excluir";
-					btExcluirLista.id =  listasSeparadas[cntListas];
+					// btExcluirLista.id =  listasSeparadas[cntListas];
+					btExcluirLista.dataset.id =  listasSeparadas[cntListas];
 					btExcluirLista.innerHTML = icones.delItem;
 					btExcluirLista.setAttribute("class", "btQuadrado");
 					btExcluirLista.addEventListener("click", function(){
-						confirmacaoExcluirLista( this.id );
+						confirmacaoExcluirLista( this.getAttribute("data-id") );
 						animAbrir( getById("excluir") );
 					});
 
@@ -450,10 +452,10 @@ root.style.setProperty( "--corTema3", corTema3 );
 					// secaoItems.append( criar({nomeDoElemento: "section", conteudoInterno: valorEstimadoDaCompra.outerHTML }) );
 					linkAbre = criar({
 						nomeDoElemento: "a",
-						atributoID: listasSeparadas[cntListas],
+						// atributoID: listasSeparadas[cntListas],
 						atributoStyle: "padding: 15px; display: block",
 						atributoHREF: "#visualizarLista",
-						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( this.id );',
+						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( listasSeparadas[cntListas] );',
 						conteudoInterno: "<section class='previaLista'>" + secaoItems.outerHTML + valorEstimadoDaCompra.outerHTML + "</section>"
 					});
 					// secaoItems.append( valorEstimadoDaCompra );
@@ -528,10 +530,10 @@ root.style.setProperty( "--corTema3", corTema3 );
 		identificacaoVisual = novoElm("h4");
 		visualizarLista = novoElm("a");
 		visualizarLista.href = "#visualizarLista";
-		visualizarLista.id = idLista;
+		visualizarLista.dataset.id = idLista;
 		visualizarLista.addEventListener("click", function(){
 			//alert( this.href.split("=")[1] );
-			abrirLista( this.id );
+			abrirLista( this.getAttribute("data-id") );
 		});
 		idVisualDaLista = "Criado  " + diasDaSemana[ pegarHora.getDay() ] + ", às " + de0a9(pegarHora.getHours()).toString() + ":" + de0a9(pegarHora.getMinutes()).toString() + ", dia " + de0a9(pegarHora.getDay()).toString() + "/" + de0a9((pegarHora.getMonth()+1)).toString() + "/" + pegarHora.getFullYear().toString();
 		visualizarLista.innerText = idVisualDaLista;
