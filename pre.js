@@ -404,23 +404,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 					tituloJanela.append( btExcluirLista, h2Titulo )//, btExcluirLista );
 					
 					listaGuardada.append( tituloJanela );
-					
-					legendDasListas = novoElm("p");
-					
-					legendaDesc = novoElm("span");
-					legendaDesc.innerText = "Descrição";
-					
-					legendaUnid = novoElm("span");
-					legendaUnid.innerText = "Unid.";
-					
-					legendaPrec = novoElm("span");
-					legendaPrec.innerText = "Preço";
 
-					legendDasListas.append( legendaDesc, legendaUnid, legendaPrec );
-					legendDasListas.style = "text-align: center;  background-color: var( --corTema ) " ;
-					secaoItems = novoElm("section");
-					secaoItems.append( legendDasListas );
-					//listaGuardada.append( legendDasListas );
+					secaoItems = criar({
+						nomeDoElemento: "table",
+						atributoClass: "previaLista",
+						conteudoInterno: "<thead><tr><td>Descrição</td><td>Unid.</td><td>Preço</td></tr></thead>"
+					});
 
 					conteudoNaLista = itensNaLista.split(" inicioDaLista ")[1].split(" && ");
 					cntItens = 0;
@@ -430,14 +419,14 @@ root.style.setProperty( "--corTema3", corTema3 );
 					
 					while (cntItens < conteudoNaLista.length ){
 						if( conteudoNaLista[cntItens] != "" ){
-							itemDaLista = novoElm("p");
-							descricaoAdicionada = novoElm("span");
+							itemDaLista = novoElm("tr");
+							descricaoAdicionada = novoElm("td");
 							descricaoAdicionada.innerText = conteudoNaLista[cntItens].split(" ++ ")[0];
 							
-							unidadesDoItem = novoElm("span");
+							unidadesDoItem = novoElm("td");
 							unidadesDoItem.innerText = conteudoNaLista[cntItens].split(" ++ ")[1];
 							
-							valorGuardado = novoElm("span");
+							valorGuardado = novoElm("td");
 							valorGuardado.innerText = conteudoNaLista[cntItens].split(" ++ ")[2].toLocaleString("pt-BR", { style: "currency" , currency:"BRL"});
 							itemDaLista.append( descricaoAdicionada, unidadesDoItem, valorGuardado );
 							
@@ -459,14 +448,16 @@ root.style.setProperty( "--corTema3", corTema3 );
 						}
 						cntItens++;
 					}
-					secaoItems.append( valorEstimadoDaCompra );
 					linkAbre = criar({
 						nomeDoElemento: "a",
 						atributoID: listasSeparadas[cntListas],
+						atributoStyle: "padding: 15px; display: block",
 						atributoHREF: "#visualizarLista",
 						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( this.id );',
 						conteudoInterno: secaoItems.outerHTML
 					});
+					secaoItems.append( criar({nomeDoElemento: "section", conteudoInterno: valorEstimadoDaCompra.outerHTML }) );
+					secaoItems.append( valorEstimadoDaCompra );
 					listaGuardada.append( linkAbre );
 					getById("listaEmCriacao").append(listaGuardada);
 				}
