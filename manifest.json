@@ -1,12 +1,14 @@
 {
 
     "manifest_version": 2,
-    "name": "lista",
+    "short_name": "lista",
+    "name": "Lista de compras",
     "background_color": "#364864",
     "start_url": "index.html",
     "theme_color": "#80c0ff",
-    "display": "minimal-ui",
+    "display": "fullscreen",
     "version": "1.0",
+    "prefer_related_applications": true,
     "icons": [{
             "src": "icon64.png",
             "type": "image/svg+xml",
