@@ -185,7 +185,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 		btFechar.setAttribute("class", "btQuadrado");
 		btFechar.addEventListener("click", function(evntBtFechar){
 			animFechar( getById("visualizarLista") );
-			evntBtFechar.preventDefault();
+			// evntBtFechar.preventDefault();
 		});
 		
 		btNovoItem = novoElm("a");
@@ -372,17 +372,12 @@ root.style.setProperty( "--corTema3", corTema3 );
 					tituloNaLista = itensNaLista.split(" inicioDaLista ")[0];
 					h2Titulo = novoElm("h3");
 
-					visualizarLista = novoElm("a");
-					visualizarLista.innerText = tituloNaLista;
-					// visualizarLista.id = listasSeparadas[cntListas];
-					visualizarLista.dataset.id = listasSeparadas[cntListas];
-					visualizarLista.href = "#visualizarLista";
-					visualizarLista.addEventListener("click", function(){
-						animAbrir( getById("visualizarLista") );
-						abrirLista( this.getAttribute("data-id") );
-					});
-
-					h2Titulo.append( visualizarLista );
+					h2Titulo.append( criar({
+						nomeDoElemento: "a",
+						atributoHREF: "#visualizarLista",
+						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( '+listasSeparadas[cntListas] +' );',
+						conteudoInterno: tituloNaLista
+					}) );
 					
 					tituloJanela = novoElm("div");
 					tituloJanela.setAttribute("class", "tituloJanela");
@@ -455,7 +450,7 @@ root.style.setProperty( "--corTema3", corTema3 );
 						// atributoID: listasSeparadas[cntListas],
 						atributoStyle: "padding: 15px; display: block",
 						atributoHREF: "#visualizarLista",
-						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( listasSeparadas[cntListas] );',
+						atributoOnClick: 'animAbrir( getById("visualizarLista") ); abrirLista( '+ listasSeparadas[cntListas] +' );',
 						conteudoInterno: "<section class='previaLista'>" + secaoItems.outerHTML + valorEstimadoDaCompra.outerHTML + "</section>"
 					});
 					// secaoItems.append( valorEstimadoDaCompra );
